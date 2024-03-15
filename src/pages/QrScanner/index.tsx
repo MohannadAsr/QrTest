@@ -4,12 +4,6 @@ import { Scanner } from '@yudiel/react-qr-scanner';
 function QrScanner() {
   const [result, setResult] = React.useState('');
 
-  const handleScan = (data) => {
-    if (data) {
-      setResult(data);
-    }
-  };
-
   const handleError = (err) => {
     console.error(err);
   };
@@ -32,9 +26,11 @@ function QrScanner() {
   return (
     <div>
       <Scanner
-        options={{ constraints: { width: 100 } }}
+        options={{ constraints: { facingMode: 'environment' } }}
         enabled
-        onResult={(text, result) => console.log(text, result)}
+        onResult={(text, result) => {
+          setResult(text);
+        }}
         onError={(error) => console.log(error?.message)}
       />
       <p>Result: {result}</p>
