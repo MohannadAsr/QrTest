@@ -9,6 +9,14 @@ import { Button, Divider, TextField } from '@mui/material';
 import EventInvitaions from '@components/Events/EventInvitaions';
 import { ErrorBtn, SuccessBtn } from '@src/styles/styledComponents';
 import DashDialog from '@src/@core/shared/Dialog/DashDialog';
+
+export function isMobileDevice() {
+  return (
+    typeof window.orientation !== 'undefined' ||
+    navigator.userAgent.indexOf('IEMobile') !== -1
+  );
+}
+
 function EventDetails() {
   const { id } = useParams();
   const { data, isLoading } = useEventByIdQueries(id);
@@ -26,13 +34,6 @@ function EventDetails() {
       }, 1000);
     }
   }, [data]);
-
-  function isMobileDevice() {
-    return (
-      typeof window.orientation !== 'undefined' ||
-      navigator.userAgent.indexOf('IEMobile') !== -1
-    );
-  }
 
   function shareOnWhatsApp() {
     const url = `https://localhost:3000/eventaccess/${data.id}`;
