@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+  box-sizing: border-box !important;
+  transition: 0.3s background-color;
+}
+
+html {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  @apply w-[3px] h-[3px] bg-transparent rounded-md;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-primary rounded-md;
+}
+@layer base {
+  body {
+    font-family: 'Barlow Condensed', sans-serif;
+  }
+}
+
+.error-msg {
+  @apply px-2 text-red-500 font-bold text-sm;
+}
+
+#toast-container {
+  .toast {
+    position: relative;
+    animation: toast-anim 0.4s linear forwards;
+    width: 100%;
+    padding: 19px;
+    color: white;
+    // border-radius: 20px;
+    text-transform: capitalize;
+    font-weight: 600;
+  }
+}
+@keyframes toast-anim {
+  0% {
+    bottom: -110px;
+  }
+  100% {
+    bottom: 0px;
+  }
+}
+
+// Mui Desktop Clock display flex for ok button
+.css-1g7nc1s-MuiPickersLayout-root .MuiPickersLayout-actionBar {
+  display: flex;
+  justify-content: center;
+}
+
+.text-1 {
+  @apply text-5xl md:text-5xl lg:text-6xl  xl:text-6xl;
+}
+.text-2 {
+  @apply text-4xl md:text-4xl lg:text-5xl xl:text-5xl;
+}
+.text-3 {
+  @apply text-3xl md:text-3xl lg:text-4xl xl:text-4xl;
+}
+.text-4 {
+  @apply text-2xl md:text-2xl lg:text-3xl xl:text-3xl;
+}
+.text-5 {
+  @apply text-xl md:text-xl lg:text-2xl xl:text-2xl;
+}
+.text-6 {
+  @apply text-lg md:text-lg lg:text-xl xl:text-xl;
+}
+.text-7 {
+  @apply text-lg md:text-lg lg:text-lg xl:text-lg;
+}
+
+.brand-rounded {
+  @apply rounded-ee-3xl rounded-tl-3xl;
+}
+
+.MuiInputBase-root {
+  min-height: 50px;
+}
