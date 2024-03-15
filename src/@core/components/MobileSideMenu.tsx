@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import MuiIcon from './MuiIcon';
 import { Card, IconButton, Paper } from '@mui/material';
 import { switchMobileMenu } from '@src/actions/App/AppSlice';
-import DashSideMenu from './DashSideMenu';
+// import DashSideMenu from './DashSideMenu';
 
 function MobileSideMenu() {
   const { MobileMenu } = useSelector((state: RootState) => state.App);
@@ -33,7 +33,7 @@ function MobileSideMenu() {
             <MuiIcon name="Close" />
           </IconButton>
         </Paper>
-        <DashSideMenu />
+        {/* <DashSideMenu /> */}
       </div>
     </>
   );

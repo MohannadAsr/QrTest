@@ -6,10 +6,10 @@ export const SuccessBtn = styled(Button)({
   minWidth: 100,
   fontWeight: 700,
   backgroundColor: lightTheme.palette.success.main,
-  color: themeConfig.PaletteOptions.primary.main,
+  color: lightTheme.palette.primary.main,
   ':hover': {
     backgroundColor: lightTheme.palette.success.main,
-    color: themeConfig.PaletteOptions.primary.main,
+    color: lightTheme.palette.primary.main,
   },
 });
 
