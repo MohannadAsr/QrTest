@@ -25,8 +25,15 @@ function QrScanner() {
 
   return (
     <div>
+      <h1 className=" text-5 text-white">
+        Scannen Sie QR-Codes und überprüfen Sie die Einladungen Ihrer VIPs
+      </h1>
+
       <Scanner
-        options={{ constraints: { facingMode: 'environment' } }}
+        components={{ tracker: true, count: true, torch: true, onOff: true }}
+        options={{
+          constraints: { facingMode: 'environment' },
+        }}
         enabled
         onResult={(text, result) => {
           setResult(text);
