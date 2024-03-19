@@ -7,8 +7,8 @@ export const NavListItems = [
   { name: 'Startseite', path: '/', icon: 'Home' },
   { name: 'Veranstaltungen', path: '/events', icon: 'Event' },
   { name: 'VIPs', path: '/vips', icon: 'PeopleOutlined' },
-  { name: 'Statistiken', path: 'n', icon: 'QueryStatsOutlined' },
-  { name: 'QR-Scanner', path: '/QRscanner', icon: 'InfoOutlined' },
+  // { name: 'Statistiken', path: 'n', icon: 'QueryStatsOutlined' },
+  // { name: 'QR-Scanner', path: '/QRscanner', icon: 'InfoOutlined' },
 ];
 
 function NavList() {

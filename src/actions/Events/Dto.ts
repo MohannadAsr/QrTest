@@ -41,3 +41,10 @@ export class InvitationByUserId {
   createdAt: string = '';
   updatedAt: string = '';
 }
+
+export class HomeInfo {
+  nextEvent: EventDTO = new EventDTO();
+  totalVips: number = 0;
+  totalEvents: number = 0;
+  totalInvitaions: number = 0;
+}

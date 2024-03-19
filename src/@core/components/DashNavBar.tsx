@@ -1,4 +1,4 @@
-import { Paper } from '@mui/material';
+import { IconButton, Paper } from '@mui/material';
 import ThemeSwitcher from './ThemeSwitcher';
 import LangSwitcher from './LangSwitcher';
 import DashLogout from './DashControl';
@@ -21,6 +21,12 @@ function DashNavBar() {
         <div>
           <span className=" md:flex hidden  items-center  gap-2 lg:gap-5  justify-evenly">
             <NavList />
+          </span>
+          <span className="md:hidden flex">
+            <MobileSideMenu />
+            {/* <IconButton>
+              <MuiIcon name="Menu" className=" text-white" color="inherit" />
+            </IconButton> */}
           </span>
         </div>
 

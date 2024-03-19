@@ -40,7 +40,7 @@ function QrScanner() {
         }}
         onError={(error) => console.log(error?.message)}
       />
-      <p>Result: {result}</p>
+      <p className=" text-center text-success">in development mode</p>
     </div>
   );
 }

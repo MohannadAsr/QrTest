@@ -7,6 +7,7 @@ import {
   LinearProgress,
   MenuItem,
   Pagination,
+  Paper,
   Select,
 } from '@mui/material';
 import Table from '@mui/material/Table';
@@ -94,7 +95,7 @@ function DashTable({
         <>
           <TableContainer component={Card}>
             {isFetching && <LinearProgress color="success" />}
-            <Table sx={{ minWidth: 240 }}>
+            <Table sx={{ minWidth: 240 }} size="small">
               <TableHead
                 sx={{
                   fontWeight: 900,
@@ -174,7 +175,7 @@ function DashTable({
           {paginationData && (
             <>
               <Divider />
-              <div className=" flex items-center justify-between px-5 bg-white py-2 rounded-md shadow-lg">
+              <Paper className=" flex items-center justify-between px-5 bg-white py-2 rounded-md shadow-lg">
                 <p className=" text-[12px] md:text-[16px]">
                   <strong>Gesamtergebnisse:</strong> {paginationData.totalCount}
                 </p>
@@ -207,7 +208,7 @@ function DashTable({
                   <MenuItem value={30}>30</MenuItem>
                   <MenuItem value={50}>50</MenuItem>
                 </Select>
-              </div>
+              </Paper>
             </>
           )}
         </>

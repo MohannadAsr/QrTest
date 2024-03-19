@@ -1,5 +1,8 @@
-import { useEventByIdQueries } from '@src/actions/Events/useEventsQueries';
-import { useLocation, useParams } from 'react-router-dom';
+import {
+  MutateDeleteEvent,
+  useEventByIdQueries,
+} from '@src/actions/Events/useEventsQueries';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { format } from 'date-fns';
 import MuiIcon from '@src/@core/components/MuiIcon';
 import logo from '/logo.webp';
@@ -9,6 +12,7 @@ import { Button, Divider, TextField } from '@mui/material';
 import EventInvitaions from '@components/Events/EventInvitaions';
 import { ErrorBtn, SuccessBtn } from '@src/styles/styledComponents';
 import DashDialog from '@src/@core/shared/Dialog/DashDialog';
+import { themeConfig } from '@src/themeConfig';
 
 export function isMobileDevice() {
   return (
@@ -19,12 +23,14 @@ export function isMobileDevice() {
 
 function EventDetails() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { data, isLoading } = useEventByIdQueries(id);
   const { counter } = useCountDown();
   const [CountDown, setCountDown] = React.useState<countDownDto | null>(null);
   const startedRef = React.useRef(false);
   const [open, setOpen] = React.useState<boolean>(false);
   const [message, setMessage] = React.useState<string>('');
+  const { mutate: deleteEvent } = MutateDeleteEvent();
 
   React.useEffect(() => {
     if (data?.date && !startedRef.current) {
@@ -36,7 +42,9 @@ function EventDetails() {
   }, [data]);
 
   function shareOnWhatsApp() {
-    const url = `https://localhost:3000/eventaccess/${data.id}`;
+    const url = `${
+      window.location.protocol + '//' + window.location.host
+    }/eventaccess/${data.id}`;
 
     const webUrl = ` ${'https://api.whatsapp.com/send?text='}${encodeURIComponent(
       message + ' ' + url
@@ -47,6 +55,17 @@ function EventDetails() {
     setOpen(false);
     setMessage('');
   }
+
+  const handleDelete = () => {
+    deleteEvent(
+      { id: id },
+      {
+        onSuccess: () => {
+          navigate(-1);
+        },
+      }
+    );
+  };
 
   if (isLoading) return <></>;
   return (
@@ -68,7 +87,12 @@ function EventDetails() {
             >
               Aktie
             </SuccessBtn>
-            <ErrorBtn startIcon={<MuiIcon name="Delete" />}>Delete</ErrorBtn>
+            <ErrorBtn
+              onClick={handleDelete}
+              startIcon={<MuiIcon name="Delete" />}
+            >
+              Delete
+            </ErrorBtn>
           </div>
         </div>
         <div className=" grid grid-cols-1 md:grid-cols-2 gap-5">

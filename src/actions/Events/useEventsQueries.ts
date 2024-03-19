@@ -1,13 +1,20 @@
 import { useApi } from '@src/hooks/useApi';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { CreateEventDTO, EventDTO, InvitaionByEventDto } from './Dto';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { CreateEventDTO, EventDTO, HomeInfo, InvitaionByEventDto } from './Dto';
 import { EVENTS_API } from './EndPoints';
 import { Invitations_API } from '../Invitaions/EndPoints';
 
-const { POST, GET } = useApi();
+const { POST, GET, DELETE } = useApi();
 
 const getEvents = async () => {
-  const response = await GET<{ data: EventDTO[] }>(EVENTS_API.main);
+  const response = await GET<{ data: EventDTO[]; pending: number[] }>(
+    EVENTS_API.main
+  );
+  return response.data;
+};
+
+const getHomeInfo = async () => {
+  const response = await GET<{ data: HomeInfo }>(EVENTS_API.HOMEINFO);
   return response.data.data;
 };
 const addEventById = async (id: string) => {
@@ -17,6 +24,11 @@ const addEventById = async (id: string) => {
 const addEvent = async (payload: CreateEventDTO) => {
   const response = await POST(EVENTS_API.main, payload, { formData: true });
   return response;
+};
+
+const deleteEvent = async (payload: { id: string }) => {
+  const response = await DELETE(EVENTS_API.main, payload);
+  return response.data;
 };
 
 const getEventInvitations = async (payload: string) => {
@@ -41,6 +53,14 @@ export const useEventsQueries = () => {
   });
 };
 
+export const useHomeInfos = () => {
+  return useQuery({
+    queryKey: ['homeInfo'],
+    queryFn: getHomeInfo,
+    refetchOnWindowFocus: false,
+  });
+};
+
 export const useEventByIdQueries = (id: string) => {
   return useQuery({
     queryKey: ['eventById', id],
@@ -54,5 +74,18 @@ export const useInvitaionsByEventQuery = (id: string) => {
     queryKey: ['invitaionsById', id],
     queryFn: () => getEventInvitations(id),
     refetchOnWindowFocus: false,
+  });
+};
+
+export const MutateDeleteEvent = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ['DeleteEvent'],
+    mutationFn: (payload: { id: string }) => deleteEvent(payload),
+    onSuccess: (data) => {
+      if (data) {
+        queryClient.invalidateQueries({ queryKey: ['events'] });
+      }
+    },
   });
 };

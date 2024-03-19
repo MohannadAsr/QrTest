@@ -32,10 +32,16 @@ function Events() {
             </p>
           </div>
         </Link>
-        {data
+        {data?.data
           ?.filter((item) => new Date(item.date) > new Date())
           .map((item, index) => {
-            return <EventCard event={item} key={index} />;
+            return (
+              <EventCard
+                event={item}
+                key={index}
+                pending={data?.pending[index]}
+              />
+            );
           })}
       </div>
     </div>
