@@ -24,7 +24,7 @@ function Home() {
     }
   }, [data]);
 
-  if (isLoading) return <></>;
+  if (isLoading || !data) return <></>;
 
   return (
     <div className=" text-white">
@@ -37,72 +37,78 @@ function Home() {
         <span className=" text-success font-medium"> Overview </span> about your
         Dashboard
       </p>
-      <div className=" mt-7">
-        <p className=" text-4 my-3 px-3">Kommende Veranstaltung</p>
-        <div className=" grid grid-cols-1 md:grid-cols-2 gap-5">
-          <div className=" bg-primary/70 brand-rounded p-3 flex justify-center items-center">
-            <Link to={`/events/${data?.nextEvent?.id}`}>
-              <img
-                src={data?.nextEvent?.image || logo}
-                loading="lazy"
-                alt=""
-                className={` ${
-                  data?.nextEvent?.image ? 'object-cover' : 'object-contain'
-                } brand-rounded max-h-[250px] md:max-h-[350px] h-full  w-full`}
-              />
-            </Link>
-          </div>
-          <div className=" flex flex-col gap-3  justify-between  bg-primary/70 brand-rounded p-5 min-h-[340px]">
-            <div className=" flex flex-col gap-4">
-              <div className=" flex items-center justify-between  flex-wrap">
-                <h1 className=" text-success font-bold  capitalize text-3">
-                  {data?.nextEvent?.name}
-                </h1>
-                <p className=" text-5 text-white font-bold items-center flex gap-1">
-                  {format(
-                    new Date(data.nextEvent?.date),
-                    ' dd-MM-yyyy , HH:MM'
-                  )}
-                </p>
-              </div>
-              <div className=" bg-black/30 p-4 rounded-lg px-2 flex-1   ">
-                <p className=" text-white text-5 overflow-auto min-h-[130px] max-h-[130px] md:min-h-[200px] md:max-h-[200px] ">
-                  {data.nextEvent?.description}
-                </p>
-              </div>
+      {data.nextEvent && (
+        <div className=" mt-7">
+          <p className=" text-4 my-3 px-3">Kommende Veranstaltung</p>
+          <div className=" grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div className=" bg-primary/70 brand-rounded p-3 flex justify-center items-center">
+              <Link to={`/events/${data?.nextEvent?.id}`}>
+                <img
+                  src={data?.nextEvent?.image || logo}
+                  loading="lazy"
+                  alt=""
+                  className={` ${
+                    data?.nextEvent?.image ? 'object-cover' : 'object-contain'
+                  } brand-rounded max-h-[250px] md:max-h-[350px] h-full  w-full`}
+                />
+              </Link>
             </div>
-            <div>
-              {CountDown && (
-                <div className=" flex justify-evenly items-center gap-3 text-6 text-center  text-white text-7">
-                  <p className=" bg-primary/80 p-3 rounded-lg flex-1 flex md:flex-row flex-col gap-0 md:gap-2">
-                    <span className="text-success text-6">{CountDown.day}</span>{' '}
-                    Tag
-                  </p>
-                  <p className=" bg-primary/80 p-3 rounded-lg flex-1 flex md:flex-row flex-col gap-0 md:gap-2">
-                    <span className="text-success text-6">
-                      {' '}
-                      {CountDown.hour}
-                    </span>{' '}
-                    Std
-                  </p>
-                  <p className=" bg-primary/80 p-3 rounded-lg flex-1 flex md:flex-row flex-col gap-0 md:gap-2">
-                    <span className="text-success text-6">
-                      {CountDown.minute}
-                    </span>{' '}
-                    Min
-                  </p>
-                  <p className=" bg-primary/80 p-3 rounded-lg flex-1 flex md:flex-row flex-col gap-0 md:gap-2">
-                    <span className="text-success text-6">
-                      {CountDown.second}
-                    </span>{' '}
-                    Sek
+            <div className=" flex flex-col gap-3  justify-between  bg-primary/70 brand-rounded p-5 min-h-[340px]">
+              <div className=" flex flex-col gap-4">
+                <div className=" flex items-center justify-between  flex-wrap">
+                  <h1 className=" text-success font-bold  capitalize text-3">
+                    {data?.nextEvent?.name}
+                  </h1>
+                  {data?.nextEvent?.date && (
+                    <p className=" text-5 text-white font-bold items-center flex gap-1">
+                      {format(
+                        new Date(data?.nextEvent?.date),
+                        ' dd-MM-yyyy , HH:MM'
+                      )}
+                    </p>
+                  )}
+                </div>
+                <div className=" bg-black/30 p-4 rounded-lg px-2 flex-1   ">
+                  <p className=" text-white text-5 overflow-auto min-h-[130px] max-h-[130px] md:min-h-[200px] md:max-h-[200px] ">
+                    {data.nextEvent?.description}
                   </p>
                 </div>
-              )}
+              </div>
+              <div>
+                {CountDown && (
+                  <div className=" flex justify-evenly items-center gap-3 text-6 text-center  text-white text-7">
+                    <p className=" bg-primary/80 p-3 rounded-lg flex-1 flex md:flex-row flex-col gap-0 md:gap-2">
+                      <span className="text-success text-6">
+                        {CountDown.day}
+                      </span>{' '}
+                      Tag
+                    </p>
+                    <p className=" bg-primary/80 p-3 rounded-lg flex-1 flex md:flex-row flex-col gap-0 md:gap-2">
+                      <span className="text-success text-6">
+                        {' '}
+                        {CountDown.hour}
+                      </span>{' '}
+                      Std
+                    </p>
+                    <p className=" bg-primary/80 p-3 rounded-lg flex-1 flex md:flex-row flex-col gap-0 md:gap-2">
+                      <span className="text-success text-6">
+                        {CountDown.minute}
+                      </span>{' '}
+                      Min
+                    </p>
+                    <p className=" bg-primary/80 p-3 rounded-lg flex-1 flex md:flex-row flex-col gap-0 md:gap-2">
+                      <span className="text-success text-6">
+                        {CountDown.second}
+                      </span>{' '}
+                      Sek
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
       <p className="text-4 mt-10 px-3 ">Kurzer Rückblick</p>
       <div className=" grid grid-cols-1 md:grid-cols-4 px-6  gap-6 mt-4">
         <div className=" bg-primary text-center flex flex-col gap-2 items-center justify-center p-4 text-4 min-h-[250px] brand-rounded">
