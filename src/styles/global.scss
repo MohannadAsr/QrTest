@@ -27,7 +27,7 @@ html {
 }
 
 .error-msg {
-  @apply px-2 text-red-500 font-bold text-sm;
+  @apply px-2 text-error font-medium text-[11px];
 }
 
 #toast-container {
@@ -84,5 +84,5 @@ html {
 }
 
 .MuiInputBase-root {
-  min-height: 50px;
+  min-height: 48px;
 }

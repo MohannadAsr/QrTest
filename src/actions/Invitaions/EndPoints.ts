@@ -5,4 +5,6 @@ export enum Invitations_API {
   VIPINvitaions = '/api/invitaions/invitationForVip',
   ApproveInvitation = '/api/invitaions/aprroveInvitation',
   RejectInvitation = '/api/invitaions/rejectInvitation',
+  UPDATEStatus = '/api/invitaions/updateStatus',
+  InvitaionById = '/api/invitaions/',
 }

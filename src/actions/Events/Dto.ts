@@ -6,6 +6,7 @@ export class CreateEventDTO {
   description = '' as string;
   date = null as Date | null;
   image = null as File | null;
+  tablesCount: number = 5;
 }
 
 export class EventDTO {
@@ -17,6 +18,7 @@ export class EventDTO {
   image: string | null = null;
   createdAt: string = '';
   updatedAt: string = '';
+  tablesCount: number = 5;
 }
 
 export class InvitaionByEventDto {
@@ -40,6 +42,7 @@ export class InvitationByUserId {
   optionsId: string | null = null;
   createdAt: string = '';
   updatedAt: string = '';
+  completedDate: string | Date | null = null;
 }
 
 export class HomeInfo {
@@ -47,4 +50,5 @@ export class HomeInfo {
   totalVips: number = 0;
   totalEvents: number = 0;
   totalInvitaions: number = 0;
+  totalProducts: number = 0;
 }

@@ -16,8 +16,8 @@ import { useAuth } from './useAuth';
 import { useNavigate } from 'react-router-dom';
 
 export class signinDto {
-  email: string = '';
-  password: string = '';
+  email: string = 'l1@admin.com';
+  password: string = 'l1admin';
 }
 
 function SignInForm() {

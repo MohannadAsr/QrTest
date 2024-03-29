@@ -15,6 +15,7 @@ export const lightTheme = createTheme({
         variant: 'contained',
       },
     },
+
     MuiInputBase: {
       styleOverrides: {
         root: {

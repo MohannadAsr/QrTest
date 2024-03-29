@@ -11,7 +11,7 @@ import * as yup from 'yup';
 
 function AddVip() {
   const [open, setOpen] = React.useState<boolean>(false);
-  const { mutate } = MutataAddVip();
+  const { mutate, isPending } = MutataAddVip();
 
   const validationSchema = yup.object({
     name: yup.string().required(),
@@ -77,13 +77,7 @@ function AddVip() {
                     </div>
                   </div>
 
-                  <div className=" flex justify-center items-center gap-4 mt-3 ">
-                    <SuccessBtn
-                      startIcon={<MuiIcon name="Check" />}
-                      type="submit"
-                    >
-                      Add
-                    </SuccessBtn>
+                  <div className=" flex justify-end items-center gap-4 mt-3 ">
                     <ErrorBtn
                       startIcon={<MuiIcon name="Close" />}
                       color="error"
@@ -92,6 +86,13 @@ function AddVip() {
                       {' '}
                       Close
                     </ErrorBtn>
+                    <SuccessBtn
+                      loading={isPending}
+                      startIcon={<MuiIcon name="Check" />}
+                      type="submit"
+                    >
+                      Add
+                    </SuccessBtn>
                   </div>
                 </Form>
               </Formik>

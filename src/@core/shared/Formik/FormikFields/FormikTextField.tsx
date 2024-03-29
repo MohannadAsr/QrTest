@@ -1,9 +1,15 @@
-import { InputAdornment, TextField, TextFieldProps } from '@mui/material';
+import {
+  InputAdornment,
+  Paper,
+  TextField,
+  TextFieldProps,
+} from '@mui/material';
 import { ErrorMessage, Field, FieldAttributes, FieldProps } from 'formik';
 import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
+import get from 'lodash/get';
 
 interface FormikTextFieldProps extends FieldAttributes<any> {
-  label?: string;
+  label: string;
   Fn?: (props: any) => any;
 }
 
@@ -20,30 +26,31 @@ function FormikTextField({
           return (
             <>
               <TextField
-                value={form.values[name]}
+                {...field}
+                value={get(form?.values, name)}
                 {...rest}
-                helperText={
-                  form.errors[name] && form.touched[name]
-                    ? `*${form.errors[name]} `
-                    : rest?.helperText
-                }
-                error={Boolean(form.errors[name] && form.touched[name])}
+                // helperText={
+                //   get(form.errors, name) && get(form.touched, name)
+                //     ? `*${get(form.errors, name)} `
+                //     : rest?.helperText
+                // }
+                error={Boolean(
+                  get(form.errors, name) && get(form.touched, name)
+                )}
+                label={label}
                 id={name}
                 onChange={(e) => {
                   form.setFieldValue(name, e.target.value);
                   Fn ? Fn(e.target.value) : null;
                 }}
-                label={label}
                 name={name}
-                autoComplete={label}
                 InputProps={{
                   ...rest.InputProps,
-
-                  sx: { padding: 1 },
+                  sx: { borderRadius: 0, minHeight: 50 },
                   endAdornment:
-                    form.errors[name] && form.touched[name] ? (
+                    get(form.errors, name) && get(form.touched, name) ? (
                       <InputAdornment position="end">
-                        {form.errors[name] && form.touched[name] && (
+                        {get(form.errors, name) && get(form.touched, name) && (
                           <WarningAmberOutlinedIcon color="error" />
                         )}
                       </InputAdornment>
@@ -56,7 +63,7 @@ function FormikTextField({
           );
         }}
       </Field>
-      {/* <ErrorMessage name={name} /> */}
+      <ErrorMessage name={name} component={'div'} className=" error-msg" />
     </div>
   );
 }

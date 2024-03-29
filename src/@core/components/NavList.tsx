@@ -2,22 +2,30 @@ import React from 'react';
 import MuiIcon, { MUIIconName } from './MuiIcon';
 import { Link, useLocation } from 'react-router-dom';
 import { isMobileDevice } from '@src/pages/Events/EventDetails';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@src/store/store';
+import { switchMobileMenu } from '@src/actions/App/AppSlice';
 
-export const NavListItems = [
-  { name: 'Startseite', path: '/', icon: 'Home' },
-  { name: 'Veranstaltungen', path: '/events', icon: 'Event' },
-  { name: 'VIPs', path: '/vips', icon: 'PeopleOutlined' },
-  // { name: 'Statistiken', path: 'n', icon: 'QueryStatsOutlined' },
-  // { name: 'QR-Scanner', path: '/QRscanner', icon: 'InfoOutlined' },
-];
+export const NavListItems: { name: string; path: string; icon: MUIIconName }[] =
+  [
+    { name: 'Startseite', path: '/', icon: 'Home' },
+    { name: 'Veranstaltungen', path: '/events', icon: 'Event' },
+    { name: 'VIPs', path: '/vips', icon: 'PeopleOutlined' },
+    { name: 'Products', path: '/products', icon: 'Restaurant' },
+    // { name: 'Statistiken', path: 'n', icon: 'QueryStatsOutlined' },
+    // { name: 'QR-Scanner', path: '/QRscanner', icon: 'InfoOutlined' },
+  ];
 
 function NavList() {
   const { pathname } = useLocation();
+  const { MobileMenu } = useSelector((state: RootState) => state.App);
+  const dispatch = useDispatch();
   return (
     <>
       {NavListItems.map((item, index) => {
         return (
           <Link
+            onClick={() => dispatch(switchMobileMenu(false))}
             to={item.path}
             className={`group ${
               (pathname.startsWith(item.path) && item.path !== '/') ||
@@ -43,6 +51,7 @@ function NavList() {
       })}
       {isMobileDevice() && (
         <Link
+          onClick={() => dispatch(switchMobileMenu(false))}
           to={'/QRscanner'}
           className={`group ${
             pathname.startsWith('/QRscanner') || pathname == '/QRscanner'

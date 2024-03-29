@@ -12,6 +12,7 @@ import CreateEvents from '@src/pages/Events/CreateEvent';
 import EventDetails from '@src/pages/Events/EventDetails';
 import EventAccess from '@src/pages/EventAccess';
 import QrScanner from '@src/pages/QrScanner';
+import ProductPage from '@src/pages/Products';
 
 export class DashNaviagtionProps {
   name: string = '';
@@ -32,6 +33,12 @@ export const NavigationRoutes: (DashNaviagtionProps | DashTitleProps)[] = [
     name: 'vips',
     path: '/vips',
     component: <Vips />,
+    icon: null,
+  },
+  {
+    name: 'vips',
+    path: '/products',
+    component: <ProductPage />,
     icon: null,
   },
   {

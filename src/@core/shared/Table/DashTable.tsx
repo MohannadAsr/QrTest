@@ -38,7 +38,7 @@ function DashTable({
   setPaginationControl,
 }: {
   name: string;
-  data: { id: string; cells: (string | JSX.Element)[] }[];
+  data: { id: string; cells: (string | number | JSX.Element)[] }[];
   titles: { name: string; propertyName?: string }[];
   isFetching?: boolean;
   isLoading?: boolean;
@@ -86,7 +86,7 @@ function DashTable({
             sx={{ minWidth: 90 }}
             onClick={onDelete}
           >
-            Löschen
+            Löschen ({selectedIds.length})
           </Button>
         )}
       </div>
@@ -175,7 +175,7 @@ function DashTable({
           {paginationData && (
             <>
               <Divider />
-              <Paper className=" flex items-center justify-between px-5 bg-white py-2 rounded-md shadow-lg">
+              <Paper className=" flex items-center justify-between px-5 bg-white py-1 rounded-md shadow-lg">
                 <p className=" text-[12px] md:text-[16px]">
                   <strong>Gesamtergebnisse:</strong> {paginationData.totalCount}
                 </p>

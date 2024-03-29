@@ -1,4 +1,5 @@
 import { PaletteOptions } from '@mui/material';
+import { green } from '@mui/material/colors';
 
 type themeConfigType = {
   name: string;
