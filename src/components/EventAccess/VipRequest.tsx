@@ -39,7 +39,7 @@ function VipRequest({ join, setJoin }) {
       <div className=" flex items-center flex-col gap-5">
         <MuiIcon name="CheckCircle" color="primary" sx={{ fontSize: 50 }} />
         <p className=" text-primary text-7 capitalize font-semibold">
-          Your request Submitted Successfully
+          Ihre Anfrage wurde erfolgreich übermittelt
         </p>
         <CircularProgress />
       </div>
@@ -57,7 +57,8 @@ function VipRequest({ join, setJoin }) {
             <div className=" flex items-center gap-1">
               <GoBack customAction={() => setJoin(false)} />
               <p className=" text-primary font-semibold">
-                Provide your Informations so we can add you to our Vips List
+                Geben Sie Ihre Informationen an, damit wir Sie zu unserer
+                VIP-Liste hinzufügen können
               </p>
             </div>
             <div className=" grid  grid-cols-1 md:grid-cols-2 gap-5">
@@ -96,14 +97,14 @@ function VipRequest({ join, setJoin }) {
                   Fieldtype="textField"
                   type="tel"
                   name="phone"
-                  label="Phone Number"
+                  label="Telefonnummer"
                 />
               </div>
             </div>
 
             <div className=" flex justify-center items-center gap-4 mt-3 ">
               <SuccessBtn loading={isPending} type="submit">
-                Submit
+                Einreichen
               </SuccessBtn>
             </div>
           </div>

@@ -72,7 +72,7 @@ function AddVip() {
                         Fieldtype="textField"
                         type="tel"
                         name="phone"
-                        label="Phone Number"
+                        label="Telefonnummer"
                       />
                     </div>
                   </div>
@@ -84,14 +84,14 @@ function AddVip() {
                       onClick={() => setOpen(false)}
                     >
                       {' '}
-                      Close
+                      Schließen
                     </ErrorBtn>
                     <SuccessBtn
                       loading={isPending}
                       startIcon={<MuiIcon name="Check" />}
                       type="submit"
                     >
-                      Add
+                      Hinzufügen
                     </SuccessBtn>
                   </div>
                 </Form>

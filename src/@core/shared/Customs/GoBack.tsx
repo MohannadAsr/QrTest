@@ -11,7 +11,7 @@ function GoBack({ customAction }: { customAction?: () => void }) {
   };
   return (
     <IconButton onClick={handelNavigate}>
-      <MuiIcon name="ArrowBack" color="inherit" className=" text-white" />
+      <MuiIcon name="ArrowBack" color="inherit" className=" text-black" />
     </IconButton>
   );
 }

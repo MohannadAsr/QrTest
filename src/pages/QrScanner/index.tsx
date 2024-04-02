@@ -186,7 +186,7 @@ function QrScanner() {
                     loading={isPending}
                     onClick={completeInvite}
                   >
-                    Mark as Completed
+                    Als abgeschlossen markieren
                   </SuccessBtn>
                 </div>
               </DashDrawerActions>

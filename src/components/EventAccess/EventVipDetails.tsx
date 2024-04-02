@@ -94,7 +94,7 @@ function EventVipDetails() {
                       onClick={() => setJoin(true)}
                       className=" flex items-center justify-center text-primary underline font-semibold text-[14px] cursor-pointer"
                     >
-                      Join Our Vips Members
+                      Treten Sie unseren VIP-Mitgliedern bei
                     </div>
                   </div>
                 </Form>

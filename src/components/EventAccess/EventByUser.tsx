@@ -229,12 +229,12 @@ function EventByUser() {
     link.click();
   };
 
-  // if (isLoading)
-  //   return (
-  //     <div className=" my-10 flex items-center justify-center">
-  //       <CircularProgress color="inherit" className=" text-white z-[2]" />
-  //     </div>
-  //   );
+  if (isLoading)
+    return (
+      <div className=" my-10 flex items-center justify-center">
+        <CircularProgress color="inherit" className=" text-white z-[2]" />
+      </div>
+    );
 
   if (!data)
     return (
@@ -435,16 +435,16 @@ function EventByUser() {
                 )}
               </div>
               <div className="flex items-center justify-center mt-6">
-                {/* {TotalPrice == 0 || !FormState.productsOption ? (
+                {TotalPrice == 0 || !FormState.productsOption ? (
                   <SuccessBtn loading={isCreating} onClick={createInvitaion}>
                     Beitrittsanfrage
                   </SuccessBtn>
-                ) : ( */}
-                <SuccessBtn loading={isCreating} onClick={createInvitaion}>
-                  {' '}
-                  Check Out {TotalPrice} €{' '}
-                </SuccessBtn>
-                {/* )} */}
+                ) : (
+                  <SuccessBtn loading={isCreating} onClick={createInvitaion}>
+                    {' '}
+                    Check Out {TotalPrice} €{' '}
+                  </SuccessBtn>
+                )}
               </div>
             </Form>
           </Formik>

@@ -14,6 +14,7 @@ import React from 'react';
 import * as yup from 'yup';
 import { useAuth } from './useAuth';
 import { useNavigate } from 'react-router-dom';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 export class signinDto {
   email: string = 'l1@admin.com';
@@ -25,15 +26,21 @@ function SignInForm() {
   const navigate = useNavigate();
   const [initValues, setInitValues] = React.useState(new signinDto());
   const [showPass, setShowPass] = React.useState<boolean>(false);
+  const [loading, setLoading] = React.useState<boolean>(false);
   const validationSchema = yup.object({
     email: yup.string().required(),
     password: yup.string().required(),
   });
 
   const submit = (values: signinDto) => {
-    Login(values).then(() => {
-      navigate('/');
-    });
+    setLoading(true);
+    Login(values)
+      .then(() => {
+        navigate('/');
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
   return (
     <>
@@ -75,9 +82,9 @@ function SignInForm() {
               <Checkbox checked />
               <p className=" drop-shadow-lg">Erinnere dich an mich</p>
             </div>
-            <Button variant="contained" type="submit">
+            <LoadingButton variant="contained" type="submit" loading={loading}>
               Anmelden{' '}
-            </Button>
+            </LoadingButton>
           </div>
         </Form>
       </Formik>

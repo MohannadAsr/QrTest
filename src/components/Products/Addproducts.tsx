@@ -68,7 +68,7 @@ function Addproducts({
       )}
       <DashDialog
         open={open}
-        title={'Neuen VIP hinzufügen'}
+        title={'Neuen Produkte hinzufügen'}
         handleClose={() => setOpen(false)}
         body={
           <>
@@ -105,7 +105,7 @@ function Addproducts({
                       Fieldtype="textField"
                       type="number"
                       name="price"
-                      label="*Price"
+                      label="*Preis"
                     />
                     <div className=" col-span-1 md:col-span-2">
                       <FormikControl
@@ -116,7 +116,7 @@ function Addproducts({
                         fullWidth
                         Fieldtype="textField"
                         name="restaurant"
-                        label="Restaurant Name"
+                        label="Restaurantname"
                       />
                     </div>
                     <div className=" col-span-1 md:col-span-2">
@@ -131,7 +131,7 @@ function Addproducts({
                         rows={3}
                         type="tel"
                         name="description"
-                        label="Description"
+                        label="Beschreibung"
                       />
                     </div>
                   </div>
@@ -143,14 +143,14 @@ function Addproducts({
                       onClick={() => setOpen(false)}
                     >
                       {' '}
-                      Close
+                      Schließen
                     </ErrorBtn>
                     <SuccessBtn
                       loading={isPending}
                       startIcon={<MuiIcon name="Check" />}
                       type="submit"
                     >
-                      Add
+                      Hinzufügen
                     </SuccessBtn>
                   </div>
                 </Form>

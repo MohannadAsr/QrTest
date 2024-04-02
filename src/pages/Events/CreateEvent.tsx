@@ -19,7 +19,7 @@ function CreateEvents() {
   const [formValues, setFormValues] = React.useState<CreateEventDTO>(
     new CreateEventDTO()
   );
-  const { mutate } = MutateAddEvent();
+  const { mutate, isPending } = MutateAddEvent();
   const navigate = useNavigate();
 
   const validationSchema = yup.object({
@@ -50,7 +50,6 @@ function CreateEvents() {
     <div className=" flex flex-col gap-10 text-white mb-10">
       <div>
         <div className=" flex items-center gap-2">
-          <GoBack />
           <div>
             <h1 className=" text-3 font-bold text-white">
               Neues<span className=" text-success">Ereignis</span>erstellen
@@ -146,6 +145,7 @@ function CreateEvents() {
                 </div>
                 <div className=" mt-5 flex justify-end items-center">
                   <SuccessBtn
+                    loading={isPending}
                     startIcon={<MuiIcon name="Check" />}
                     type="submit"
                   >
