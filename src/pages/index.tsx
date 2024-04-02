@@ -34,9 +34,12 @@ function Home() {
         <span className=" text-success">{themeConfig.name}</span> Dashboard
       </h1>
       <p className=" text-7 ">
-        Take a Quick{' '}
-        <span className=" text-success font-medium"> Overview </span> about your
+        Verschaffen Sie sich einen kurzen{' '}
+        <span className=" text-success font-medium">Überblick </span> über Ihr
         Dashboard
+        {/* Take a Quick{' '}
+        <span className=" text-success font-medium"> Overview </span> about your
+        Dashboard */}
       </p>
 
       {data.nextEvent && (

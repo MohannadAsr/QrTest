@@ -95,7 +95,7 @@ function EventDetails() {
                 onClick={handleDelete}
                 startIcon={<MuiIcon name="Delete" />}
               >
-                Delete
+                Löschen
               </ErrorBtn>
             </div>
             <EventDetailsCard
@@ -142,7 +142,7 @@ function EventDetails() {
                 color="error"
                 onClick={() => setOpen(false)}
               >
-                Close
+                Schließen
               </ErrorBtn>
             </div>
           </>
