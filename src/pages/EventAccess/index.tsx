@@ -15,17 +15,7 @@ function EventAccess() {
         <img src="/logo.webp" alt="" className=" h-[70px] md:h-[130px] z-[2]" />
         <div className=" flex items-center justify-center"></div>
       </div>
-      {isLoggedIn() && (
-        <div className=" flex items-center justify-center z-[3] mt-5">
-          <ErrorBtn
-            startIcon={<MuiIcon name="Logout" />}
-            onClick={LogOut}
-            className=" z-[2]"
-          >
-            Ausloggen
-          </ErrorBtn>
-        </div>
-      )}
+
       <EventVipDetails />
     </div>
   );

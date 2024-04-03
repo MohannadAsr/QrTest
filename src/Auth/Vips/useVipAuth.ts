@@ -16,16 +16,16 @@ export const useVipAuth = () => {
   };
 
   const LogOut = () => {
-    localStorage.removeItem('vip-auth');
+    sessionStorage.removeItem('vip-auth');
     location.reload();
   };
 
   const SetuserData = (userData: any) => {
-    localStorage.setItem('vip-auth', JSON.stringify(userData));
+    sessionStorage.setItem('vip-auth', JSON.stringify(userData));
   };
 
   const GetUserData = (): any | undefined => {
-    const userData = localStorage.getItem('vip-auth');
+    const userData = sessionStorage.getItem('vip-auth');
     return userData ? JSON.parse(userData) : JSON.stringify(undefined);
   };
 
@@ -39,7 +39,7 @@ export const useVipAuth = () => {
   };
 
   const isLoggedIn = (): boolean => {
-    const userData = localStorage.getItem('vip-auth');
+    const userData = sessionStorage.getItem('vip-auth');
     return userData ? true : false;
   };
 

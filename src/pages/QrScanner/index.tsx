@@ -38,6 +38,17 @@ function QrScanner() {
 
   React.useEffect(() => {
     requestCameraPermission();
+    mutate('131eca1a-6b16-4e79-aa4d-95584c0ea11d', {
+      onSuccess: (data) => {
+        if (data) {
+          setInvite(data);
+          setOpen(true);
+        }
+      },
+      onError: () => {
+        setOpen(true);
+      },
+    });
   }, []);
 
   const handleInvite = (id: string) => {
@@ -167,6 +178,20 @@ function QrScanner() {
                         {invite.invitation.deliveryAddress}
                       </p>
                     </div>
+                  )}
+                  {invite?.productList?.length !== 0 && (
+                    <>
+                      Bestellte Produkte{' '}
+                      <div className=" bg-primary/90 text-white p-2 rounded-md flex flex-col gap-2">
+                        {invite?.productList?.map((item, index) => {
+                          return (
+                            <div>
+                              {item.product.name} - ({item.quantity})
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </>
                   )}
                   <div className=" flex items-center justify-center mt-5 mb-20">
                     <img

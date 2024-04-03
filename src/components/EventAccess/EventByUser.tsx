@@ -406,7 +406,7 @@ function EventByUser() {
                     />
                   </div>
                 </div>
-                {CountDown?.day < 1 && (
+                {CountDown?.day > 1 && (
                   <div>
                     <div className=" flex items-center flex-wrap gap-2 my-2">
                       <FormLabel>Do you Want any products?</FormLabel>
@@ -420,7 +420,7 @@ function EventByUser() {
                     {FormState.productsOption && (
                       <>
                         <p className=" text-[12px]">
-                          *Select products you want to order
+                          *Wählen Sie Produkte aus, die Sie bestellen möchten
                         </p>
                         <div className=" grid grid-cols-1 lg:grid-cols-2  gap-3">
                           <ProductList
@@ -442,7 +442,7 @@ function EventByUser() {
                 ) : (
                   <SuccessBtn loading={isCreating} onClick={createInvitaion}>
                     {' '}
-                    Check Out {TotalPrice} €{' '}
+                    Kasse {TotalPrice} €{' '}
                   </SuccessBtn>
                 )}
               </div>
@@ -465,6 +465,15 @@ function EventByUser() {
           </div>
         )}
       </Paper>
+      <div className=" flex items-center justify-center z-[3] mt-5">
+        <ErrorBtn
+          startIcon={<MuiIcon name="Logout" />}
+          onClick={LogOut}
+          className=" z-[2]"
+        >
+          Ausloggen
+        </ErrorBtn>
+      </div>
     </div>
   );
 }
