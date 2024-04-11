@@ -61,12 +61,15 @@ function CreateEvents() {
           </div>
         </div>
       </div>
-      <div className=" grid grid-cols-12 gap-5 px-1 md:px-20">
+      <div className=" grid grid-cols-12 gap-5 px-1 md:px-20 bg-white p-5">
+        <p className=" text-6 bg-white p-3 text-primary font-semibold  col-span-12">
+          Enter your Event Image And Details
+        </p>
         <div className=" col-span-12 md:col-span-12">
           <FileUploader File={File} setFile={setFile} />
         </div>
         <div className="col-span-12 md:col-span-12 ">
-          <div className=" bg-white brand-rounded   p-5 md:p-8">
+          <div className=" bg-white    p-5 md:p-8">
             <Formik
               onSubmit={submit}
               validationSchema={validationSchema}

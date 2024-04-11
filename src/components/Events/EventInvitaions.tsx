@@ -1,166 +1,151 @@
-import { Divider, IconButton, Paper, Tooltip } from '@mui/material';
-import MuiIcon, { MUIIconName } from '@src/@core/components/MuiIcon';
-import { InvitaionByEventDto } from '@src/actions/Events/Dto';
-import { useInvitaionsByEventQuery } from '@src/actions/Events/useEventsQueries';
 import {
-  MutateApproveInvitation,
-  MutateRejectInvitation,
-  MutateUpdateInvitaionStatus,
-} from '@src/actions/Invitaions/useInvitationsQueries';
-import { InvitationStatus } from '@src/enums/Enums';
-import { ErrorBtn, SuccessBtn } from '@src/styles/styledComponents';
-import React from 'react';
+  Divider,
+  FormControl,
+  InputLabel,
+  LinearProgress,
+  MenuItem,
+  Pagination,
+  Select,
+  TextField,
+} from '@mui/material';
+import { useInvitaionsByEventQuery } from '@src/actions/Events/useEventsQueries';
+import { ErrorMessage } from 'formik';
 import { useParams } from 'react-router-dom';
+import InvitationCard from './InvitationCard';
+import { PaginationControlDTO } from '@src/actions/Vips/Dto';
+import React from 'react';
+import { boolean } from 'yup';
+import { useCustomHooks } from '@src/hooks/useCustomHooks';
 
-const InviteStatus: {
-  status: InvitationStatus;
-  icon: MUIIconName;
-  title: string;
-}[] = [
-  {
-    status: InvitationStatus.Pending,
-    icon: 'HourglassEmpty',
-    title: 'Pending',
-  },
-  {
-    status: InvitationStatus.Completed,
-    icon: 'Check',
-    title: 'Completed',
-  },
-  {
-    status: InvitationStatus.Rejected,
-    icon: 'Cancel',
-    title: 'Rejected',
-  },
-  {
-    status: InvitationStatus.Approved,
-    icon: 'Verified',
-    title: 'verified',
-  },
-];
-
-const InvitaionCard = ({ invite }: { invite: InvitaionByEventDto }) => {
-  const { mutate: verify } = MutateApproveInvitation();
-  const { mutate: reject } = MutateRejectInvitation();
-  const Status = React.useMemo(() => {
-    return InviteStatus.find((item) => item.status == invite.status);
-  }, [invite]);
-
-  const accept = () => {
-    verify({ id: invite.id });
-  };
-
-  const decline = () => {
-    reject({ id: invite.id });
-  };
-  return (
-    <div className=" p-6 bg-primary brand-rounded text-white flex flex-col justify-between gap-3 relative">
-      <div
-        className=" absolute right-0 top-0 flex items-center gap-2 capitalize p-2"
-        style={{
-          fontWeight: 700,
-        }}
-      >
-        <Tooltip title={Status?.title}>
-          <IconButton sx={{ color: '#fff' }}>
-            <MuiIcon name={Status?.icon} color="inherit" />
-          </IconButton>
-        </Tooltip>
-      </div>
-      <div className=" flex flex-col gap-4">
-        <div className=" flex items-center gap-2 ">
-          <MuiIcon name="Person" />
-          <p>{invite?.vip?.name}</p>
-        </div>
-        <div className=" flex items-center gap-2  ">
-          <MuiIcon name="Email" />
-          <p>{invite?.vip?.email}</p>
-        </div>
-        <div className=" flex items-center gap-2 ">
-          <MuiIcon name="Phone" />
-          <p>{invite?.vip?.phone}</p>
-        </div>
-      </div>
-      {invite.status == InvitationStatus.Rejected && (
-        <div className=" flex items-center justify-evenly gap-3">
-          {' '}
-          <SuccessBtn onClick={accept}>Accept</SuccessBtn>
-        </div>
-      )}
-      {invite.status == InvitationStatus.Pending && (
-        <div className=" flex items-center justify-evenly gap-3">
-          <SuccessBtn onClick={accept}>Accept</SuccessBtn>
-          <ErrorBtn onClick={decline}>Reject</ErrorBtn>
-        </div>
-      )}
-    </div>
-  );
-};
-
-const StatusTypes = [
-  {
-    title: 'Ausstehende Anfrage',
-    status: 'pending',
-  },
-  {
-    title: 'verifizierte Anfrage',
-    status: 'approved',
-  },
-  {
-    title: 'abgelehnte Anfrage',
-    status: 'rejected',
-  },
-  {
-    title: 'abgeschlossene Anfrage',
-    status: 'completed',
-  },
-];
+export class InvitationsFilters {
+  name: string = '';
+  status: 'pending' | 'approved' | 'completed' | 'missed' | null = null;
+  deliveryOption: 1 | 0 | null = null;
+}
 
 function EventInvitaions() {
+  const [pagination, setPagination] = React.useState<PaginationControlDTO>(
+    new PaginationControlDTO()
+  );
+  const [filter, setFilter] = React.useState<InvitationsFilters>(
+    new InvitationsFilters()
+  );
   const { id } = useParams();
-  const { data, isLoading } = useInvitaionsByEventQuery(id);
-  const groubedBy = React.useMemo(() => {
-    if (data) {
-      return data.data.reduce((acc, item) => {
-        const key = item.status;
-        acc[key] = acc[key] || [];
-        acc[key].push(item);
-        return acc;
-      }, {});
-    }
+  const { data, isLoading, refetch, isFetching } = useInvitaionsByEventQuery(
+    id,
+    pagination,
+    filter
+  );
+  const { useTimerFn } = useCustomHooks();
 
-    return {};
-  }, [data]);
+  React.useEffect(() => {
+    useTimerFn(() => refetch(), 800);
+  }, [pagination, filter]);
 
   if (isLoading) return <></>;
+
   return (
     <>
-      <h1 className=" text-3 font-bold text-white">
-        Einladungen zu <span className=" text-success"> Veranstaltungen</span>{' '}
-        <span className=" text-4">({data?.totalCount})</span>
-      </h1>
-      <div className=" my-4 flex flex-col gap-8">
-        {StatusTypes.map((status, index) => {
-          return (
-            <div key={index}>
-              {groubedBy[status.status] && (
-                <>
-                  <h5 className=" text-white text-4 capitalize">
-                    {status.title}
-                  </h5>
-                  <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 my-5">
-                    {groubedBy[status.status]?.map((item, index) => {
-                      return <InvitaionCard invite={item} key={index} />;
-                    })}
-                  </div>
-                </>
-              )}
+      <div className=" bg-white rounded-md">
+        <p className=" text-6  p-3 text-primary font-semibold  mt-3  ">
+          Invitations ({data?.pagination?.totalCount})
+        </p>
+        <Divider />
+        {data?.pagination?.totalCount !== 0 && (
+          <div className=" grid grid-cols-2 lg:grid-cols-4 items-center  p-2 gap-2 ">
+            <div className=" col-span-2 lg:col-span-2">
+              <TextField
+                value={filter.name}
+                fullWidth
+                label="Name"
+                onChange={(e) => {
+                  setFilter({ ...filter, name: e.target.value });
+                }}
+              />
             </div>
-          );
-        })}
+            <div>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                <Select
+                  label={'Status'}
+                  value={filter.status == null ? 'all' : filter.status}
+                  onChange={(e) => {
+                    setFilter({
+                      ...filter,
+                      status:
+                        e.target.value == 'all'
+                          ? null
+                          : (e.target.value as
+                              | 'pending'
+                              | 'approved'
+                              | 'completed'
+                              | 'missed'
+                              | null),
+                    });
+                  }}
+                >
+                  <MenuItem value={'all'}>All</MenuItem>
+                  <MenuItem value={'pending'}>Pending</MenuItem>
+                  <MenuItem value={'approved'}>Approved</MenuItem>
+                  <MenuItem value={'completed'}>Completed</MenuItem>
+                  <MenuItem value={'missed'}>Missed</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">
+                Delivery Option
+              </InputLabel>
+              <Select
+                label={'Status'}
+                value={
+                  filter.deliveryOption == null ? 'all' : filter.deliveryOption
+                }
+                onChange={(e) => {
+                  setFilter({
+                    ...filter,
+                    deliveryOption:
+                      e.target.value == 'all'
+                        ? null
+                        : (e.target.value as 1 | 0 | null),
+                  });
+                }}
+              >
+                <MenuItem value={'all'}>All</MenuItem>
+                <MenuItem value={1}>With Delivery</MenuItem>
+                <MenuItem value={0}>No Delivery</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+        )}
+        {isFetching && <LinearProgress color="primary" />}
       </div>
+      {data?.pagination?.totalCount !== 0 ? (
+        <>
+          <div className=" bg-white/30 py-5 px-2 rounded-md mt-3">
+            {data?.data.length !== 0 ? (
+              <div className=" grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3  gap-4 ">
+                {data?.data?.map((card, index) => {
+                  return <InvitationCard key={index} invite={card} />;
+                })}
+              </div>
+            ) : (
+              <div className=" flex items-center justify-center text-white text-7">
+                No Result
+              </div>
+            )}
+          </div>
 
-      {data?.totalCount == 0 && (
+          <div className=" flex items-center justify-center bg-white p-2 rounded-md mt-3">
+            <Pagination
+              page={data?.pagination?.page}
+              onChange={(e, page) => {
+                setPagination({ ...pagination, pageIndex: page });
+              }}
+            />
+          </div>
+        </>
+      ) : (
         <div className=" flex items-center justify-center my-10 text-gray-300 text-3 font-semibold ">
           Bisher keine Einladungen
         </div>

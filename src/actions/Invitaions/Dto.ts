@@ -17,7 +17,7 @@ export class CreateVipInvitaion {
   deliveryDate: string | Date = new Date();
   deliveryAddress: string = '';
   productsOption: boolean = false;
-  products: { id: string; quantity: number }[] = [];
+  products: { id: string; quantity: number; name: string }[] = [];
   peopleNames: string[] = [''];
 }
 

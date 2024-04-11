@@ -22,14 +22,40 @@ export class EventDTO {
 }
 
 export class InvitaionByEventDto {
+  peopleNames: string[] | null = null;
+  products: Product[] = [];
   id: string = '';
-  event: EventDTO = new EventDTO();
-  vip: VIPDTO = new VIPDTO();
-  qrCodeId: string | null = null;
-  status: InvitationStatus = InvitationStatus.Pending;
-  optionsId: string | null = null;
+  eventId: string = '';
+  vipId: string = '';
+  qrCodeId: string = '';
+  qrCodeUrl: string = '';
+  status: string = '';
+  peopleCount: number = 0;
+  paid: boolean = false;
+  paymentUrl: string = '';
+  paymentId: string | null = null;
+  tableReservation: boolean = false;
+  deliveryOption: boolean = false;
+  deliveryDate: string | null = null;
+  deliveryAddress: string | null = null;
+  completedDate: string | null = null;
   createdAt: string = '';
   updatedAt: string = '';
+  vip: Vip = new Vip();
+}
+
+export class Product {
+  id: string = '';
+  quantity: number = 0;
+  name: string = '';
+  price: number = 0;
+}
+
+export class Vip {
+  name: string = '';
+  email: string = '';
+  phone: string = '';
+  id: string = '';
 }
 
 export class InvitationByUserId {
@@ -42,6 +68,7 @@ export class InvitationByUserId {
   optionsId: string | null = null;
   createdAt: string = '';
   updatedAt: string = '';
+  paymentUrl: string = '';
   completedDate: string | Date | null = null;
 }
 

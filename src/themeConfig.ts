@@ -12,7 +12,7 @@ type themeConfigType = {
 
 export const themeConfig: themeConfigType = {
   name: 'L1',
-  API_URL: 'https://app-d89731df-3847-4a27-a904-ae31a58bb467.cleverapps.io',
+  API_URL: 'http://127.0.0.1:8080',
   localStorageName: 'it-trendco',
   PaletteOptions: {
     primary: {

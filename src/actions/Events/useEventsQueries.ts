@@ -3,6 +3,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { CreateEventDTO, EventDTO, HomeInfo, InvitaionByEventDto } from './Dto';
 import { EVENTS_API } from './EndPoints';
 import { Invitations_API } from '../Invitaions/EndPoints';
+import { PaginationControlDTO, paginationDTO } from '../Vips/Dto';
+import { InvitationsFilters } from '@components/Events/EventInvitaions';
 
 const { POST, GET, DELETE } = useApi();
 
@@ -31,11 +33,18 @@ const deleteEvent = async (payload: { id: string }) => {
   return response.data;
 };
 
-const getEventInvitations = async (payload: string) => {
+const getEventInvitations = async (
+  payload: string,
+  pagination: PaginationControlDTO,
+  filter: InvitationsFilters
+) => {
   const response = await GET<{
     data: InvitaionByEventDto[];
-    totalCount: number;
-  }>(`${Invitations_API.InvitaionsByEvent}${payload}`);
+    pagination: paginationDTO;
+  }>(`${Invitations_API.InvitaionsByEvent}${payload}`, {
+    ...pagination,
+    ...filter,
+  });
   return response.data;
 };
 export const MutateAddEvent = () => {
@@ -69,10 +78,14 @@ export const useEventByIdQueries = (id: string) => {
   });
 };
 
-export const useInvitaionsByEventQuery = (id: string) => {
+export const useInvitaionsByEventQuery = (
+  id: string,
+  pagination: PaginationControlDTO,
+  filter: InvitationsFilters
+) => {
   return useQuery({
     queryKey: ['invitaionsById', id],
-    queryFn: () => getEventInvitations(id),
+    queryFn: () => getEventInvitations(id, pagination, filter),
     refetchOnWindowFocus: false,
   });
 };

@@ -8,6 +8,7 @@ import MuiIcon from '@src/@core/components/MuiIcon';
 import { Link } from 'react-router-dom';
 import { SuccessBtn } from '@src/styles/styledComponents';
 import EventDetailsCard from '@components/EventAccess/EventDetailsCard';
+import { IconButton } from '@mui/material';
 
 function Home() {
   const { data, isLoading } = useHomeInfos();
@@ -44,7 +45,14 @@ function Home() {
 
       {data.nextEvent && (
         <div className=" mt-5">
-          <p className=" text-5 my-3 px-3">Kommende Veranstaltung</p>
+          <div className=" text-6 bg-white p-3 text-primary font-semibold flex items-center justify-between ">
+            <p>Kommende Veranstaltung</p>
+            <Link to={`/events/${data?.nextEvent?.id}`}>
+              <IconButton>
+                <MuiIcon name="Link" />
+              </IconButton>
+            </Link>
+          </div>
           <EventDetailsCard
             CountDown={CountDown}
             data={data.nextEvent}
@@ -58,7 +66,9 @@ function Home() {
         </div>
       )}
 
-      <p className="text-5 mt-10 px-3 ">Kurzer Rückblick</p>
+      <div className=" text-6 bg-white p-3 text-primary font-semibold brand-rounded mt-4">
+        <p>Kurzer Rückblick</p>
+      </div>
       <div className=" grid grid-cols-2 md:grid-cols-4 lg:px-6  gap-1 mt-4">
         <div className=" bg-primary text-center flex flex-col gap-2 items-center justify-center p-4 text-4 min-h-[150px] brand-rounded">
           <MuiIcon name="Event" sx={{ fontSize: 40 }} />

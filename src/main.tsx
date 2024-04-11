@@ -14,6 +14,7 @@ import './styles/global.scss';
 import { AppLoading } from './@core/components/AppLoading.tsx';
 import DashThemeProvider from './@core/Providers/DashThemeProvider.tsx';
 
+
 export const queryClient = new QueryClient();
 
 // import App from './App.tsx';

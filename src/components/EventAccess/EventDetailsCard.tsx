@@ -4,14 +4,14 @@ import logo from '/logo.webp';
 
 const EventDetailsCard = ({ data, isEnded, CountDown }) => {
   return (
-    <div className=" grid grid-cols-1 lg:grid-cols-2 bg-primary/70">
-      <div className=" bg-primary/70  p-3 flex justify-center items-center">
+    <div className=" grid grid-cols-1 lg:grid-cols-2 bg-primary/70 rounded-md ">
+      <div className=" bg-primary/70  p-3 flex justify-center items-center rounded-md">
         <img
           src={data?.image || logo}
           alt=""
           className={` ${
             data?.image ? 'object-contain' : 'object-contain'
-          } brand-rounded max-h-[250px] md:max-h-[350px] h-full  w-full`}
+          }  max-h-[250px] md:max-h-[350px] h-full  w-full`}
         />
       </div>
       <div>

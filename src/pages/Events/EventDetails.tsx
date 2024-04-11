@@ -1,19 +1,16 @@
+import EventDetailsCard from '@components/EventAccess/EventDetailsCard';
+import EventInvitaions from '@components/Events/EventInvitaions';
+import { TextField } from '@mui/material';
+import MuiIcon from '@src/@core/components/MuiIcon';
+import DashDialog from '@src/@core/shared/Dialog/DashDialog';
 import {
   MutateDeleteEvent,
   useEventByIdQueries,
 } from '@src/actions/Events/useEventsQueries';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { format } from 'date-fns';
-import MuiIcon from '@src/@core/components/MuiIcon';
-import logo from '/logo.webp';
 import { countDownDto, useCountDown } from '@src/hooks/useCountDown';
-import React from 'react';
-import { Button, Divider, TextField } from '@mui/material';
-import EventInvitaions from '@components/Events/EventInvitaions';
 import { ErrorBtn, SuccessBtn } from '@src/styles/styledComponents';
-import DashDialog from '@src/@core/shared/Dialog/DashDialog';
-import { themeConfig } from '@src/themeConfig';
-import EventDetailsCard from '@components/EventAccess/EventDetailsCard';
+import React from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export function isMobileDevice() {
   return (
@@ -84,7 +81,7 @@ function EventDetails() {
         </div>
         <div className=" grid grid-cols-12">
           <div className=" w-full  col-span-12  gap-5 mt-5 mx-auto p-1">
-            <div className=" flex justify-start items-center gap-3 py-2">
+            <div className=" p-2 bg-white rounded-md flex items-center gap-2">
               <SuccessBtn
                 startIcon={<MuiIcon name="Share" />}
                 onClick={() => setOpen(true)}
@@ -111,7 +108,7 @@ function EventDetails() {
           </div>
         </div>
 
-        {/* <EventInvitaions /> */}
+        <EventInvitaions />
       </div>
       <DashDialog
         title={'Teilen Sie Ihre Veranstaltung'}

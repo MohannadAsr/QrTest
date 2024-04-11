@@ -13,6 +13,7 @@ import EventDetails from '@src/pages/Events/EventDetails';
 import EventAccess from '@src/pages/EventAccess';
 import QrScanner from '@src/pages/QrScanner';
 import ProductPage from '@src/pages/Products';
+import Bills from '@src/pages/Bills';
 
 export class DashNaviagtionProps {
   name: string = '';
@@ -70,6 +71,12 @@ export const NavigationRoutes: (DashNaviagtionProps | DashTitleProps)[] = [
     name: 'eventById',
     path: '/events/:id',
     component: <EventDetails />,
+    icon: null,
+  },
+  {
+    name: 'bills',
+    path: '/bills',
+    component: <Bills />,
     icon: null,
   },
 ];

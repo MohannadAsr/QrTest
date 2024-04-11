@@ -17,7 +17,7 @@ const VipRequestCard = ({ reqeust }: { reqeust: VIPDTO }) => {
   const { mutate: reject } = MutateRejectVipRequest();
 
   return (
-    <div className=" grid grid-cols-12 bg-primary/70 rounded-md text-white p-3 ">
+    <div className=" grid grid-cols-12 bg-primary/70 rounded-md text-white p-6 ">
       <div className="col-span-8 flex flex-col gap-1 text-[14px]">
         <div className=" flex gap-1 items-center">
           <MuiIcon name="Person" /> <p>{reqeust.name}</p>
@@ -124,7 +124,7 @@ function Vips() {
             Vips Requests ({VipList?.allVipRequests?.length})
           </p>
           <div
-            className={` grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 mt-4`}
+            className={` grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 mt-4`}
           >
             {VipList?.allVipRequests?.map((reqeust, index) => {
               return <VipRequestCard reqeust={reqeust} key={index} />;

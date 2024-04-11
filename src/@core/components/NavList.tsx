@@ -11,7 +11,9 @@ export const NavListItems: { name: string; path: string; icon: MUIIconName }[] =
     { name: 'Startseite', path: '/', icon: 'Home' },
     { name: 'Veranstaltungen', path: '/events', icon: 'Event' },
     { name: 'VIPs', path: '/vips', icon: 'PeopleOutlined' },
-    { name: 'Products', path: '/products', icon: 'Restaurant' },
+    { name: 'Products & Tables', path: '/products', icon: 'Restaurant' },
+    { name: 'Bills', path: '/bills', icon: 'Paid' },
+    { name: 'Statistics', path: '/stats', icon: 'Leaderboard' },
     // { name: 'Statistiken', path: 'n', icon: 'QueryStatsOutlined' },
     // { name: 'QR-Scanner', path: '/QRscanner', icon: 'InfoOutlined' },
   ];

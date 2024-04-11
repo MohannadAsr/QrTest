@@ -67,7 +67,7 @@ function FileUploader({
       {...rest}
       className={` ${
         rest.className && `${rest.className}`
-      } relative p-3  border-dashed border-primary bg-white/30  brand-rounded rounded-lg flex flex-col items-center justify-center  min-h-[250px]  border-2 max-h-[350px] `}
+      } relative p-3 bg-primary/10  border-dashed border-primary    flex flex-col items-center justify-center  min-h-[250px]  border-2 max-h-[350px] `}
       onDragEnter={handleDragEnter}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}

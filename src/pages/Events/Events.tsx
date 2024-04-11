@@ -10,7 +10,7 @@ function Events() {
   const { data } = useEventsQueries();
 
   return (
-    <div className=" flex flex-col gap-10 text-white">
+    <div className=" flex flex-col gap-5 text-white">
       <div>
         <h1 className=" text-3 font-bold text-white">
           Verwalten Sie Ihre{' '}
@@ -21,6 +21,9 @@ function Events() {
           Sie sie und kontrollieren Sie deren Status.
         </p>
       </div>
+      <p className=" text-6 bg-white p-3 text-primary font-semibold brand-rounded">
+        Create And Control your upcoming Events
+      </p>
       <div className=" grid grid-cols-1 md:grid-cols-4 gap-3">
         <Link to="/events/create" className="h-full min-h-[200px]">
           <div className=" brand-rounded hover:border-[1px] h-full hover:border-success flex flex-col items-center justify-center gap-3 bg-primary shadow p-4  min-h-[150px] rounded-md hover:shadow-xl  w-full cursor-pointer">
@@ -35,27 +38,24 @@ function Events() {
         {data?.data
           ?.filter((item) => new Date(item.date) > new Date())
           .map((item, index) => {
-            return (
-              <EventCard
-                event={item}
-                key={index}
-                pending={data?.pending[index]}
-              />
-            );
-          })}
-        <Divider />
-        {data?.data
-          ?.filter((item) => new Date(item.date) < new Date())
-          .map((item, index) => {
-            return (
-              <EventCard
-                event={item}
-                key={index}
-                pending={data?.pending[index]}
-              />
-            );
+            return <EventCard event={item} key={index} />;
           })}
       </div>
+      {data?.data?.filter((item) => new Date(item?.date) < new Date())
+        .length !== 0 && (
+        <>
+          <p className=" text-6 bg-white p-3 text-primary font-semibold brand-rounded">
+            Review Ended Events
+          </p>
+          <div className=" grid grid-cols-1 md:grid-cols-4 gap-3">
+            {data?.data
+              ?.filter((item) => new Date(item?.date) < new Date())
+              .map((item, index) => {
+                return <EventCard event={item} key={index} />;
+              })}
+          </div>{' '}
+        </>
+      )}
     </div>
   );
 }

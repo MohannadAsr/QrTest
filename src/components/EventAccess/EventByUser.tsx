@@ -1,38 +1,30 @@
 import {
   Checkbox,
-  CircularProgress,
   FormLabel,
   IconButton,
   Paper,
   TextField,
 } from '@mui/material';
+import { LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import MuiIcon from '@src/@core/components/MuiIcon';
+import FormikControl from '@src/@core/shared/Formik/FormikControl';
 import { useVipAuth } from '@src/Auth/Vips/useVipAuth';
 import { useEventByIdQueries } from '@src/actions/Events/useEventsQueries';
-import {
-  MutateCreateInvitation,
-  useVipInvitaion,
-} from '@src/actions/Invitaions/useInvitationsQueries';
-import { countDownDto, useCountDown } from '@src/hooks/useCountDown';
-import { ErrorBtn, SuccessBtn } from '@src/styles/styledComponents';
-import { format } from 'date-fns';
-import React from 'react';
-import { useParams } from 'react-router-dom';
-import logo from '/logo.webp';
-import { Form, Formik } from 'formik';
-import { Label } from '@mui/icons-material';
-import FormikControl from '@src/@core/shared/Formik/FormikControl';
-import CustomChip from '@src/@core/shared/Customs/CustomChip';
-import * as yup from 'yup';
 import { CreateVipInvitaion } from '@src/actions/Invitaions/Dto';
 import {
-  DateTimePicker,
-  LocalizationProvider,
-  TimePicker,
-} from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
-import { useProductsListQuery } from '@src/actions/Products/useProductsQueries';
+  MutateCreateInvitation,
+  MutateDeleteInvite,
+  useVipInvitaion,
+} from '@src/actions/Invitaions/useInvitationsQueries';
 import { ProductDto } from '@src/actions/Products/Dto';
+import { useProductsListQuery } from '@src/actions/Products/useProductsQueries';
+import { countDownDto, useCountDown } from '@src/hooks/useCountDown';
+import { ErrorBtn, SuccessBtn } from '@src/styles/styledComponents';
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { useParams } from 'react-router-dom';
+import * as yup from 'yup';
 import EventDetailsCard from './EventDetailsCard';
 
 const ApproveHandler = ({
@@ -70,16 +62,21 @@ export const ProductList = ({
   setSelectedIems,
 }: {
   productList: ProductDto[];
-  selectedItems: { id: string; quantity: number }[];
+  selectedItems: {
+    id: string;
+    quantity: number;
+    name: string;
+    price: number;
+  }[];
   setSelectedIems: React.Dispatch<
     React.SetStateAction<{ id: string; quantity: number }[]>
   >;
 }) => {
-  const switchItem = (id: string) => {
+  const switchItem = (id: string, name: string, price: number) => {
     const list = [...selectedItems];
     const findIndex = list.findIndex((item) => item.id == id);
     findIndex == -1
-      ? list.push({ id: id, quantity: 1 })
+      ? list.push({ id: id, quantity: 1, name: name, price: price })
       : list.splice(findIndex, 1);
     setSelectedIems(list);
   };
@@ -87,7 +84,9 @@ export const ProductList = ({
   const handleQuantityChange = (id: string, value: string) => {
     const list = [...selectedItems];
     const newList = list.map((item) => {
-      return item.id == id ? { id: item.id, quantity: Number(value) } : item;
+      return item.id == id
+        ? { ...item, id: item.id, quantity: Number(value) }
+        : item;
     });
     setSelectedIems(newList);
   };
@@ -99,34 +98,41 @@ export const ProductList = ({
           selectedItems.findIndex((selected) => selected.id == item.id) !== -1
             ? 'bg-primary text-white'
             : 'bg-primary/30'
-        }  p-7 rounded-md flex    gap-3  flex-wrap flex-col  relative`}
+        }   rounded-md flex   px-1 py-2  gap-3  flex-wrap   justify-between items-center  relative `}
       >
-        <div className=" absolute -left-2 -top-2">
-          <Checkbox
-            color="success"
-            checked={
-              selectedItems.findIndex((selected) => selected.id == item.id) !==
-              -1
-            }
-            onClick={() => switchItem(item.id)}
-          />
+        <div className=" flex items-center gap-2">
+          <div>
+            <Checkbox
+              color="success"
+              checked={
+                selectedItems.findIndex(
+                  (selected) => selected.id == item.id
+                ) !== -1
+              }
+              onClick={() => switchItem(item.id, item.name, item.price)}
+            />
+          </div>
+          <div>
+            <div>
+              <p>{item.name}</p>
+              <p className=" text-[12px] ">{item.description}</p>
+            </div>
+            <p className=" font-semibold">{item.price} € </p>
+          </div>
         </div>
         <div>
-          <p>{item.name}</p>
-          <p className=" text-[12px] ">{item.description}</p>
+          {selectedItems.findIndex((selected) => selected.id == item.id) !==
+            -1 && (
+            <TextField
+              sx={{ width: 70 }}
+              type="number"
+              onChange={(e) => handleQuantityChange(item.id, e.target.value)}
+              value={
+                selectedItems.find((select) => select.id == item.id)?.quantity
+              }
+            />
+          )}
         </div>
-        <p className=" font-semibold">{item.price} € </p>
-        {selectedItems.findIndex((selected) => selected.id == item.id) !==
-          -1 && (
-          <TextField
-            sx={{ maxWidth: 100 }}
-            type="number"
-            onChange={(e) => handleQuantityChange(item.id, e.target.value)}
-            value={
-              selectedItems.find((select) => select.id == item.id)?.quantity
-            }
-          />
-        )}
       </div>
     );
   });
@@ -155,16 +161,20 @@ function EventByUser() {
   const [FormState, setFormState] = React.useState<CreateVipInvitaion>(
     new CreateVipInvitaion()
   );
+
+  // Api Queries
   const { mutate: create, isPending: isCreating } = MutateCreateInvitation();
   const { data: productList, isLoading: isLoadingProduct } =
     useProductsListQuery();
   const [selectedItems, setSelectedItems] = React.useState<
-    { id: string; quantity: number }[]
+    { id: string; quantity: number; name: string; price: number }[]
   >([]);
+  const { mutate: deleteInvite, isPending: isDeleting } = MutateDeleteInvite();
   const { counter } = useCountDown();
   const [CountDown, setCountDown] = React.useState<countDownDto | null>(null);
   const startedRef = React.useRef(false);
   const [multiple, setMultiple] = React.useState<boolean>(false);
+  // Total Pice
   const TotalPrice = React.useMemo(() => {
     if (productList && selectedItems.length > 0) {
       const total = selectedItems.reduce((acc, curr) => {
@@ -212,14 +222,29 @@ function EventByUser() {
         deliveryAddress: FormState.deliveryOption
           ? FormState.deliveryAddress
           : null,
-        products: FormState.productsOption ? selectedItems : null,
+        products:
+          FormState.productsOption && CountDown?.day >= 1
+            ? selectedItems
+            : null,
       },
       {
-        onSuccess: () => {
+        onSuccess: (data) => {
+          if (data.data.data.url) {
+            return location.replace(data.data.data.url);
+          }
           refetch();
         },
       }
     );
+  };
+
+  // Handle Delete Invite
+  const handleDeleteInvite = () => {
+    deleteInvite(invitaion.id, {
+      onSuccess: (data) => {
+        location.reload();
+      },
+    });
   };
 
   const handleDownload = () => {
@@ -229,12 +254,12 @@ function EventByUser() {
     link.click();
   };
 
-  if (isLoading)
-    return (
-      <div className=" my-10 flex items-center justify-center">
-        <CircularProgress color="inherit" className=" text-white z-[2]" />
-      </div>
-    );
+  // if (isLoading)
+  //   return (
+  //     <div className=" my-10 flex items-center justify-center">
+  //       <CircularProgress color="inherit" className=" text-white z-[2]" />
+  //     </div>
+  //   );
 
   if (!data)
     return (
@@ -251,9 +276,9 @@ function EventByUser() {
     );
 
   return (
-    <div className=" z-[2] relative px-3 container my-10 ">
+    <div className=" z-[2] relative px-1 container my-10 ">
       {!invitaion && (
-        <p className=" text-7 text-white">
+        <p className=" bg-primary/50 text-white p-3">
           {' '}
           Hi ,
           <span className=" text-success font-semibold">
@@ -294,7 +319,7 @@ function EventByUser() {
                   <div className=" flex flex-col gap-3">
                     {FormState.peopleNames.map((item, index) => {
                       return (
-                        <div className=" flex  gap-2">
+                        <div className=" flex  gap-2" key={index}>
                           <TextField
                             disabled={
                               index !== FormState.peopleNames.length - 1
@@ -406,7 +431,7 @@ function EventByUser() {
                     />
                   </div>
                 </div>
-                {CountDown?.day > 1 && (
+                {CountDown?.day >= 1 && (
                   <div>
                     <div className=" flex items-center flex-wrap gap-2 my-2">
                       <FormLabel>Do you Want any products?</FormLabel>
@@ -422,7 +447,7 @@ function EventByUser() {
                         <p className=" text-[12px]">
                           *Wählen Sie Produkte aus, die Sie bestellen möchten
                         </p>
-                        <div className=" grid grid-cols-1 lg:grid-cols-2  gap-3">
+                        <div className=" flex flex-col gap-2">
                           <ProductList
                             productList={productList}
                             selectedItems={selectedItems}
@@ -453,7 +478,7 @@ function EventByUser() {
       <Paper>
         {invitaion?.status == 'approved' && (
           <div className=" flex flex-col gap-2 justify-center items-center  p-3 ">
-            <p className=" text-7  text-primary text-center">
+            <p className=" text-7  text-primary ">
               Bitte speichern Sie Ihren QR-Code und verwenden Sie ihn, um Zugang
               zur Veranstaltung zu erhalten. Hinweis: Ohne diesen QrCode können
               Sie nicht auf diese Veranstaltung zugreifen.
@@ -462,6 +487,33 @@ function EventByUser() {
             <SuccessBtn onClick={handleDownload}>
               Laden Sie den QR-Code herunter
             </SuccessBtn>
+          </div>
+        )}
+        {invitaion?.status == 'pending' && (
+          <div className=" py-5">
+            <p className=" text-7  text-primary  p-2">
+              You Already have a Pending Request , and you have a bill must paid
+              , your request will be deleted after 10 minutes from creation if
+              you dont pay it and you can create a new request after that.
+            </p>
+            <div className=" flex items-center justify-center gap-4 ">
+              <a
+                href={invitaion?.paymentUrl}
+                target="_self"
+                className=" text-center text-primary bg-success p-3 font-semibold rounded-md text-[12px] flex items-center gap-1"
+              >
+                <MuiIcon name="Payment" />
+                Go To Payment
+              </a>
+              <button
+                disabled={isDeleting}
+                onClick={handleDeleteInvite}
+                className=" text-center text-white bg-error p-3 font-semibold rounded-md text-[12px] flex items-center gap-1"
+              >
+                <MuiIcon name="Cancel" />
+                Delete My Request
+              </button>
+            </div>
           </div>
         )}
       </Paper>

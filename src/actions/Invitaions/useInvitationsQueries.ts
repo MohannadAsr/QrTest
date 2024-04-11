@@ -8,7 +8,7 @@ import {
 import { Invitations_API } from './EndPoints';
 import { InvitaionByEventDto, InvitationByUserId } from '../Events/Dto';
 
-const { POST, GET } = useApi();
+const { POST, GET, DELETE } = useApi();
 
 const UpdateInvitaionStatus = async (payload: UpdateInvitaionStatusDTO) => {
   const response = await POST(Invitations_API.UpdateInvitaionStatus, payload);
@@ -28,6 +28,11 @@ const approveInvitation = async (payload: { id: string }) => {
 };
 const RejectInvitation = async (payload: { id: string }) => {
   const response = await POST(Invitations_API.RejectInvitation, payload);
+  return response.data;
+};
+
+const DeleteInvitation = async (id: string) => {
+  const response = await DELETE(Invitations_API.main, {}, { id: id });
   return response.data;
 };
 
@@ -114,5 +119,12 @@ export const MutateUpdateStatus = () => {
     mutationKey: ['UpdateStatus'],
     mutationFn: (payload: { id: string; status: string }) =>
       UpdateStatus(payload),
+  });
+};
+
+export const MutateDeleteInvite = () => {
+  return useMutation({
+    mutationKey: ['DeleteInvite'],
+    mutationFn: (id: string) => DeleteInvitation(id),
   });
 };
