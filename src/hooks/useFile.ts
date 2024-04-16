@@ -1,3 +1,5 @@
+import { themeConfig } from '@src/themeConfig';
+
 // ! DONT TOUCH THIS FILE
 export type DocumentType = 'pdf' | 'excel' | 'word' | 'text';
 export type FileType = 'image' | 'video' | DocumentType;
@@ -29,6 +31,12 @@ export const useFile = () => {
       };
       reader.onerror = (error) => reject(error);
     });
+  };
+
+  const getImageUrl = (url: string) => {
+    return url?.startsWith('http')
+      ? url
+      : `${themeConfig.API_URL}/public/${url}`;
   };
 
   const getFileExt = (filePath = ''): string => {
@@ -65,7 +73,6 @@ export const useFile = () => {
     onUpload: (payload: { file: File; base64: string }) => void
   ) {
     const fileInput = document.createElement('input');
-
     fileInput.type = 'file';
     fileInput.style.display = 'none';
     document.body.appendChild(fileInput);
@@ -82,6 +89,38 @@ export const useFile = () => {
     fileInput.click();
   }
 
+  function MultipleopenFileWindow(
+    onUpload: (payload: { files: File[]; base64: string[] }) => void
+  ) {
+    const fileInput = document.createElement('input');
+
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+    fileInput.setAttribute('multiple', 'multiple'); // Allow multiple file selection
+    document.body.appendChild(fileInput);
+
+    fileInput.addEventListener('change', (event: any) => {
+      const selectedFiles = event.target.files;
+
+      if (selectedFiles) {
+        const filesArray: File[] = Array.from(selectedFiles);
+
+        Promise.all(filesArray.map((file: File) => toBase64(file)))
+          .then((base64Array: string[]) => {
+            onUpload({
+              files: filesArray,
+              base64: base64Array,
+            });
+          })
+          .catch((error) => {
+            console.error('Error converting files to base64:', error);
+          });
+      }
+    });
+
+    fileInput.click();
+  }
+
   return {
     toBase64,
     getFileSize,
@@ -89,6 +128,8 @@ export const useFile = () => {
     getFileExt,
     getFileType,
     openFileWindow,
+    MultipleopenFileWindow,
+    getImageUrl,
     EXCEL_EXTENTIONS,
     IMAGE_EXTENTIONS,
     PDF_EXTENTIONS,

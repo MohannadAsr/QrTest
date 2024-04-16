@@ -1,6 +1,5 @@
 import React from 'react';
 import TextTranslation from '../Translation/TextTranslation';
-import { DashboardMode } from '@src/@core/components/DashSideMenu';
 
 function WrongMode() {
   return (
@@ -19,7 +18,6 @@ function WrongMode() {
           safe , please change the mode by clicking the button below
         </TextTranslation>
       </p>
-      <DashboardMode lg />
     </div>
   );
 }
