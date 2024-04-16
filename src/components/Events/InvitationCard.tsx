@@ -3,6 +3,7 @@ import MuiIcon from '@src/@core/components/MuiIcon';
 import { InvitaionByEventDto } from '@src/actions/Events/Dto';
 import InvitationScan from '@src/pages/QrScanner/InvitationScan';
 import React from 'react';
+import { format } from 'date-fns';
 
 function InvitationCard({ invite }: { invite: InvitaionByEventDto }) {
   const [open, setOpen] = React.useState<boolean>(false);
@@ -13,6 +14,12 @@ function InvitationCard({ invite }: { invite: InvitaionByEventDto }) {
       <InvitationScan id={id} setOpen={setOpen} open={open} />
       <Card className=" p-3 flex flex-col gap-2 text-[18px] relative ">
         <div className=" flex items-center justify-between">
+          <div>
+            <p className=" bg-primary text-white py-1 px-2 rounded-md text-[12px]">
+              {' '}
+              {format(new Date(invite.createdAt), ' dd-MM-yyyy , HH:mm')}
+            </p>
+          </div>
           <span className=" flex items-center gap-2">
             {invite?.qrCodeUrl && (
               <IconButton
@@ -37,25 +44,25 @@ function InvitationCard({ invite }: { invite: InvitaionByEventDto }) {
               <MuiIcon name="Close" color="error" />
             )}
           </span>
-          <div className=" flex items-center  gap-2">
+          {/* <div className=" flex items-center  gap-2">
             <Button startIcon={<MuiIcon name="Edit" />}>Edit</Button>
-          </div>
+          </div> */}
         </div>
 
         <div className=" ">
           <div className=" flex items-center gap-1">
             <MuiIcon name="Person" color="primary" />
-            <p>{invite.vip.name}</p>
+            <p>{invite?.vip?.name}</p>
           </div>
 
           <div className=" flex items-center gap-1">
             <MuiIcon name="Email" color="primary" />
-            <p>{invite.vip.email || '...'}</p>
+            <p>{invite?.vip?.email || '...'}</p>
           </div>
 
           <div className=" flex items-center gap-1">
             <MuiIcon name="Phone" color="primary" />
-            <p>{invite.vip.phone || '...'}</p>
+            <p>{invite?.vip?.phone || '...'}</p>
           </div>
         </div>
         <div className=" mt-2 flex items-center justify-between gap-3 flex-wrap text-[14px] p-2 border-primary border-[2px] rounded-lg shadow-lg">

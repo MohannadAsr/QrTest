@@ -23,7 +23,7 @@ function MobileSideMenu() {
             onClick={() => dispatch(switchMobileMenu(false))}
             style={{ position: 'absolute', right: 3, top: 3 }}
           >
-            <MuiIcon name="Close" />
+            <MuiIcon name="Close" className=" text-white" />
           </IconButton>
         </div>
         <DashSideMenu />

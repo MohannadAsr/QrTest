@@ -11,9 +11,9 @@ export const NavListItems: { name: string; path: string; icon: MUIIconName }[] =
     { name: 'Startseite', path: '/', icon: 'Home' },
     { name: 'Veranstaltungen', path: '/events', icon: 'Event' },
     { name: 'VIPs', path: '/vips', icon: 'PeopleOutlined' },
-    { name: 'Products & Tables', path: '/products', icon: 'Restaurant' },
-    { name: 'Bills', path: '/bills', icon: 'Paid' },
-    { name: 'Statistics', path: '/stats', icon: 'Leaderboard' },
+    { name: 'Produkte & Tabellen', path: '/products', icon: 'Restaurant' },
+    { name: 'Rechnungen', path: '/bills', icon: 'Paid' },
+    { name: 'Statistiken', path: '/stats', icon: 'Leaderboard' },
     // { name: 'Statistiken', path: 'n', icon: 'QueryStatsOutlined' },
     // { name: 'QR-Scanner', path: '/QRscanner', icon: 'InfoOutlined' },
   ];
@@ -45,7 +45,7 @@ function NavList() {
                   ? 'primary'
                   : null
               }
-              className=" group-hover:-rotate-6 transition-all"
+              className=" group-hover:-rotate-6 transition-all "
             />
             <p>{item.name}</p>
           </Link>

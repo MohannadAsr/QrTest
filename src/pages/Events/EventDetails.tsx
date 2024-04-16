@@ -31,10 +31,10 @@ function EventDetails() {
   const { mutate: deleteEvent } = MutateDeleteEvent();
 
   React.useEffect(() => {
-    if (data?.date && !startedRef.current) {
+    if (data?.event.date && !startedRef.current) {
       startedRef.current = true;
       setInterval(() => {
-        setCountDown(counter(new Date(data?.date).toISOString(), false));
+        setCountDown(counter(new Date(data?.event.date).toISOString(), false));
       }, 1000);
     }
   }, [data]);
@@ -42,7 +42,7 @@ function EventDetails() {
   function shareOnWhatsApp() {
     const url = `${
       window.location.protocol + '//' + window.location.host
-    }/eventaccess/${data.id}`;
+    }/eventaccess/${data.event.id}`;
 
     const webUrl = ` ${'https://api.whatsapp.com/send?text='}${encodeURIComponent(
       message + ' ' + url
@@ -97,7 +97,7 @@ function EventDetails() {
             </div>
             <EventDetailsCard
               CountDown={CountDown}
-              data={data}
+              data={data.event}
               isEnded={[
                 CountDown?.day,
                 CountDown?.hour,

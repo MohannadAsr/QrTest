@@ -18,3 +18,16 @@ export class AddProductDto {
   description: string = '';
   restaurant: string = '';
 }
+
+export class AddTabelDto {
+  number: string = '';
+  seats: number = 1;
+}
+
+export class TableDto {
+  id: string = '';
+  number: number = 0;
+  seats: number = 0;
+  createdAt: string = '';
+  updatedAt: string = '';
+}

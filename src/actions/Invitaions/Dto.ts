@@ -13,6 +13,7 @@ export class CreateVipInvitaion {
   vipId: string = '';
   peopleCount: number = 1;
   tableReservation: boolean = false;
+  tableId: string | null = null;
   deliveryOption: boolean = false;
   deliveryDate: string | Date = new Date();
   deliveryAddress: string = '';
@@ -22,15 +23,18 @@ export class CreateVipInvitaion {
 }
 
 export class InvitationDetails {
-  invitation: CreateVipInvitaion & InvitationByUserId = {
+  invitation: CreateVipInvitaion &
+    InvitationByUserId & {
+      products: {
+        id: string;
+        quantity: number;
+        product: ProductDto;
+      }[];
+    } = {
     ...new CreateVipInvitaion(),
     ...new InvitationByUserId(),
+    products: [],
   };
   event: EventDTO = new EventDTO();
   vip: VIPDTO;
-  productList: {
-    id: string;
-    quantity: number;
-    product: ProductDto;
-  }[] = [];
 }

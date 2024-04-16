@@ -137,6 +137,20 @@ function InvitationScan({
                     ) : (
                       <CustomChip Customcolor={red['500']} label="Nein" />
                     )}
+                    {invite.invitation.tableReservation &&
+                      invite.invitation.table && (
+                        <div className=" bg-primary/90 text-white p-2 rounded-md flex  items-center justify-between gap-2">
+                          <p>
+                            <MuiIcon name="TableBar" />
+                            {' # '}
+                            {invite.invitation.table.number}
+                          </p>
+                          <p>
+                            <MuiIcon name="Chair" />
+                            {'  '} ({invite.invitation.table.seats})
+                          </p>
+                        </div>
+                      )}
                   </div>
                   <div>
                     Lieferservice:{' '}
@@ -161,20 +175,26 @@ function InvitationScan({
                       </div>
                     </div>
                   )}
-                  {invite?.productList?.length !== 0 && (
-                    <>
-                      Bestellte Produkte{' '}
-                      <div className=" bg-primary/90 text-white p-2 rounded-md flex flex-col gap-2">
-                        {invite?.productList?.map((item, index) => {
-                          return (
-                            <div>
-                              {item.product.name} - ({item.quantity})
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </>
-                  )}
+                  {invite?.invitation?.products &&
+                    invite?.invitation?.products?.length !== 0 && (
+                      <>
+                        Bestellte Produkte{' '}
+                        <div className=" bg-primary/90 text-white p-2 rounded-md flex flex-col gap-2">
+                          {invite?.invitation.products?.map((item, index) => {
+                            return (
+                              <div className=" flex items-center justify-between gap-2">
+                                <p>
+                                  {index + 1}- {item.name}
+                                </p>
+                                <p className=" bg-white text-primary p-2 rounded-md">
+                                  {item.quantity}
+                                </p>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </>
+                    )}
                   <div className=" flex items-center justify-center mt-5 mb-20">
                     <img
                       src={invite?.invitation?.qrCodeUrl}

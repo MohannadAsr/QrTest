@@ -8,6 +8,7 @@ import FileUploader from '@src/@core/shared/FileUploader/FileUploader';
 import FormikControl from '@src/@core/shared/Formik/FormikControl';
 import { CreateEventDTO } from '@src/actions/Events/Dto';
 import { MutateAddEvent } from '@src/actions/Events/useEventsQueries';
+import { useTabelsQuery } from '@src/actions/Products/useProductsQueries';
 import { SuccessBtn } from '@src/styles/styledComponents';
 import { ErrorMessage, Form, Formik } from 'formik';
 import React from 'react';
@@ -21,6 +22,7 @@ function CreateEvents() {
   );
   const { mutate, isPending } = MutateAddEvent();
   const navigate = useNavigate();
+  const { data: tabels } = useTabelsQuery();
 
   const validationSchema = yup.object({
     name: yup.string().required(),
@@ -46,6 +48,14 @@ function CreateEvents() {
     );
   };
 
+  const handleSwitchTable = (id: string) => {
+    const list = [...formValues.tableIds];
+    const Index = list.findIndex((item) => item == id);
+    Index == -1 ? list.push(id) : list.splice(Index, 1);
+
+    setFormValues({ ...formValues, tableIds: list });
+  };
+
   return (
     <div className=" flex flex-col gap-10 text-white mb-10">
       <div>
@@ -61,9 +71,9 @@ function CreateEvents() {
           </div>
         </div>
       </div>
-      <div className=" grid grid-cols-12 gap-5 px-1 md:px-20 bg-white p-5">
-        <p className=" text-6 bg-white p-3 text-primary font-semibold  col-span-12">
-          Enter your Event Image And Details
+      <div className=" grid grid-cols-12 gap-5 px-1 md:px-20 bg-white p-5 rounded-md">
+        <p className=" text-6 p-3 text-primary font-semibold  col-span-12">
+          Geben Sie Ihr Veranstaltungsbild und Ihre Details ein
         </p>
         <div className=" col-span-12 md:col-span-12">
           <FileUploader File={File} setFile={setFile} />
@@ -114,21 +124,7 @@ function CreateEvents() {
                       />
                     </LocalizationProvider>
                   </div>
-                  <div>
-                    <InputLabel id="demo-simple-select-label">
-                      Anzahl der Tische
-                    </InputLabel>
-                    <FormikControl
-                      Fn={(val) => {
-                        setFormValues({ ...formValues, tablesCount: val });
-                      }}
-                      value={formValues.tablesCount}
-                      fullWidth
-                      Fieldtype="textField"
-                      name="tablesCount"
-                      type="number"
-                    />
-                  </div>
+
                   <div className=" col-span-1 md:col-span-2">
                     <InputLabel id="demo-simple-select-label">
                       Eventbeschreibung
@@ -144,6 +140,44 @@ function CreateEvents() {
                       Fieldtype="textField"
                       name="description"
                     />
+                  </div>
+                  <div className="col-span-1 md:col-span-2">
+                    <InputLabel id="demo-simple-select-label">
+                      Ereignistabellen (Klicken Sie, um Tabellen auszuwählen)
+                    </InputLabel>
+
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 mt-4 ">
+                      {tabels?.map((item, index) => {
+                        return (
+                          <div
+                            onClick={() => handleSwitchTable(item.id)}
+                            key={index}
+                            className={` ${
+                              formValues.tableIds.includes(item.id)
+                                ? 'bg-primary'
+                                : 'bg-white/90'
+                            }  p-3 rounded-md shadow-lg border-primary border-[3px] cursor-pointer`}
+                          >
+                            <div className=" bg-secondary flex items-center justify-center rounded-md">
+                              <MuiIcon
+                                name="TableBar"
+                                sx={{ fontSize: 60, color: '#fff' }}
+                              />
+                            </div>
+                            <div className=" flex items-center justify-between mt-3 gap-3">
+                              <div className="flex-1 flex flex-col items-center justify-center gap-2 text-white bg-secondary p-2 rounded-md">
+                                <MuiIcon name="Numbers" />
+                                <p>{item.number}</p>
+                              </div>
+                              <div className=" flex-1 flex flex-col items-center justify-center gap-2 text-white bg-secondary p-2 rounded-md">
+                                <MuiIcon name="Chair" />
+                                <p>{item.seats}</p>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
                 </div>
                 <div className=" mt-5 flex justify-end items-center">

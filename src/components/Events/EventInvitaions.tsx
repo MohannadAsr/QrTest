@@ -48,7 +48,7 @@ function EventInvitaions() {
     <>
       <div className=" bg-white rounded-md">
         <p className=" text-6  p-3 text-primary font-semibold  mt-3  ">
-          Invitations ({data?.pagination?.totalCount})
+          Beitrittsanfragen ({data?.pagination?.totalCount})
         </p>
         <Divider />
         {data?.pagination?.totalCount !== 0 && (
@@ -84,17 +84,17 @@ function EventInvitaions() {
                     });
                   }}
                 >
-                  <MenuItem value={'all'}>All</MenuItem>
-                  <MenuItem value={'pending'}>Pending</MenuItem>
-                  <MenuItem value={'approved'}>Approved</MenuItem>
-                  <MenuItem value={'completed'}>Completed</MenuItem>
-                  <MenuItem value={'missed'}>Missed</MenuItem>
+                  <MenuItem value={'all'}>Alle</MenuItem>
+                  <MenuItem value={'pending'}>Ausstehend</MenuItem>
+                  <MenuItem value={'approved'}>Genehmigt</MenuItem>
+                  <MenuItem value={'completed'}>Vollendet</MenuItem>
+                  <MenuItem value={'missed'}>Verpasst</MenuItem>
                 </Select>
               </FormControl>
             </div>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">
-                Delivery Option
+                Lieferoptionen
               </InputLabel>
               <Select
                 label={'Status'}
@@ -111,9 +111,9 @@ function EventInvitaions() {
                   });
                 }}
               >
-                <MenuItem value={'all'}>All</MenuItem>
-                <MenuItem value={1}>With Delivery</MenuItem>
-                <MenuItem value={0}>No Delivery</MenuItem>
+                <MenuItem value={'all'}>Alle</MenuItem>
+                <MenuItem value={1}>Mit Lieferung</MenuItem>
+                <MenuItem value={0}>Keine Lieferung</MenuItem>
               </Select>
             </FormControl>
           </div>
@@ -131,7 +131,7 @@ function EventInvitaions() {
               </div>
             ) : (
               <div className=" flex items-center justify-center text-white text-7">
-                No Result
+                Kein Ergebnis
               </div>
             )}
           </div>

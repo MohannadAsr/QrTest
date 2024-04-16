@@ -14,9 +14,7 @@ function DeleteContainer() {
             <img src="/deleteAlert.svg" alt="" className=" max-h-[100px]" />
 
             <span className=" text-xl text-center flex flex-col gap-1 items-center justify-center">
-              <span>
-                Sind Sie sicher, dass Sie diese Elemente löschen möchten?
-              </span>
+              <span>Bitte bestätigen Sie den Löschvorgang</span>
             </span>
             <div className=" flex items-center justify-center gap-3">
               <SuccessBtn

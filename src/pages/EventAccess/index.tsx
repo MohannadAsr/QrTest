@@ -1,7 +1,6 @@
 import EventVipDetails from '@components/EventAccess/EventVipDetails';
 import { useVipAuth } from '@src/Auth/Vips/useVipAuth';
 import background from '/background.jpg';
-import { ErrorBtn } from '@src/styles/styledComponents';
 import MuiIcon from '@src/@core/components/MuiIcon';
 function EventAccess() {
   const { isLoggedIn, LogOut } = useVipAuth();

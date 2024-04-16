@@ -5,6 +5,7 @@ import { EVENTS_API } from './EndPoints';
 import { Invitations_API } from '../Invitaions/EndPoints';
 import { PaginationControlDTO, paginationDTO } from '../Vips/Dto';
 import { InvitationsFilters } from '@components/Events/EventInvitaions';
+import { TableDto } from '../Products/Dto';
 
 const { POST, GET, DELETE } = useApi();
 
@@ -20,7 +21,13 @@ const getHomeInfo = async () => {
   return response.data.data;
 };
 const addEventById = async (id: string) => {
-  const response = await GET<{ data: EventDTO }>(`${EVENTS_API.ById}${id}`);
+  const response = await GET<{
+    data: {
+      event: EventDTO;
+      AvailableTables: string[];
+      AllTablesDetails: TableDto[];
+    };
+  }>(`${EVENTS_API.ById}${id}`);
   return response.data.data;
 };
 const addEvent = async (payload: CreateEventDTO) => {

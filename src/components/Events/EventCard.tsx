@@ -26,6 +26,7 @@ function EventCard({ event }: { event: EventDTO }) {
       CountDown?.second,
     ].every((item) => item <= 0);
   }, [CountDown]);
+
   return (
     <Link
       to={`/events/${event.id}`}
@@ -38,7 +39,7 @@ function EventCard({ event }: { event: EventDTO }) {
           event.image ? 'object-cover' : 'object-contain'
         }  w-full`}
       />
-
+      <p>{event?.name}</p>
       {!iSEnded && (
         <div className=" flex items-center gap-1">
           <span className="bg-secondary p-2 rounded-md min-w-[60px] text-center">

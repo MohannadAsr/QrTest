@@ -1,6 +1,5 @@
 import { Button, IconButton, Paper } from '@mui/material';
 import MuiIcon from '@src/@core/components/MuiIcon';
-import DashTable from '@src/@core/shared/Table/DashTable';
 import {
   MutateAcceptVipRequest,
   MutateDeleteVip,
@@ -11,6 +10,7 @@ import React from 'react';
 import { format } from 'date-fns';
 import { PaginationControlDTO, VIPDTO } from '@src/actions/Vips/Dto';
 import AddVip from '@components/Vips/AddVip';
+import DashTable from '@src/@core/shared/Table/DashTable';
 
 const VipRequestCard = ({ reqeust }: { reqeust: VIPDTO }) => {
   const { mutate: accept } = MutateAcceptVipRequest();
@@ -59,6 +59,7 @@ function Vips() {
     refetch,
     isLoading,
     isFetching,
+    isError,
   } = useVipQuery(paginationControl);
 
   const { mutate: deleteVip } = MutateDeleteVip();
@@ -84,6 +85,7 @@ function Vips() {
         <span className=" text-success">VIPs</span>
       </h1>
       <DashTable
+        isError={isError}
         isFetching={isFetching}
         isLoading={isLoading}
         paginationData={VipList?.pagination}
@@ -108,9 +110,9 @@ function Vips() {
         })}
         name="Vips"
         titles={[
-          { name: 'name' },
-          { name: 'email' },
-          { name: 'Telefon' },
+          { name: 'name', propertyName: '' },
+          { name: 'email', propertyName: '' },
+          { name: 'Telefon', propertyName: '' },
           { name: 'Erstellungsdatum', propertyName: 'createdAt' },
           { name: 'Letztes Update', propertyName: 'updatedAt' },
         ]}
@@ -120,8 +122,8 @@ function Vips() {
       />
       {VipList?.allVipRequests?.length !== 0 && !isLoading && (
         <>
-          <p className=" text-5  text-success font-semibold rounded-md w-fit mt-5 ">
-            Vips Requests ({VipList?.allVipRequests?.length})
+          <p className=" text-6 bg-white p-3 text-primary font-semibold brand-rounded mt-5">
+            VIP-Anfragen ({VipList?.allVipRequests?.length})
           </p>
           <div
             className={` grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 mt-4`}

@@ -2,7 +2,7 @@ import { useApi } from '@src/hooks/useApi';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { PRODUCTS_API } from './EndPoints';
 import { PaginationControlDTO, paginationDTO } from '../Vips/Dto';
-import { AddProductDto, ProductDto } from './Dto';
+import { AddProductDto, AddTabelDto, ProductDto, TableDto } from './Dto';
 
 const { GET, DELETE, POST } = useApi();
 
@@ -83,6 +83,60 @@ export const MutateSwitchStatus = () => {
     onSuccess: (data) => {
       if (data) {
         queryClient.invalidateQueries({ queryKey: ['Products'] });
+      }
+    },
+  });
+};
+
+// Get All Tabels
+
+const getTabels = async () => {
+  const response = await GET<{ data: TableDto[] }>(PRODUCTS_API.tabels);
+  return response.data.data;
+};
+
+export const useTabelsQuery = () => {
+  return useQuery({
+    queryKey: ['Tabels'],
+    queryFn: () => getTabels(),
+    refetchOnMount: false,
+    enabled: true,
+    refetchOnWindowFocus: false,
+  });
+};
+
+// Add Table
+const addTable = async (payload: AddTabelDto) => {
+  const response = await POST(PRODUCTS_API.tabels, payload);
+  return response.data;
+};
+
+export const MutateAddTable = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ['AddTable'],
+    mutationFn: (payload: AddTabelDto) => addTable(payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['Tabels'] });
+    },
+  });
+};
+
+// Delete Table
+
+const deleteTable = async (ids: string[]) => {
+  const response = await DELETE(PRODUCTS_API.tabels, ids);
+  return response.data;
+};
+
+export const MutateDeleteTables = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ['deleteTables'],
+    mutationFn: deleteTable,
+    onSuccess: (data) => {
+      if (data) {
+        queryClient.invalidateQueries({ queryKey: ['Tabels'] });
       }
     },
   });

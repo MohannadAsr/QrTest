@@ -1,12 +1,13 @@
 import { InvitationStatus } from '@src/enums/Enums';
 import { VIPDTO } from '../Vips/Dto';
+import { TableDto } from '../Products/Dto';
 
 export class CreateEventDTO {
   name = '' as string;
   description = '' as string;
   date = null as Date | null;
   image = null as File | null;
-  tablesCount: number = 5;
+  tableIds: string[] = [];
 }
 
 export class EventDTO {
@@ -18,7 +19,7 @@ export class EventDTO {
   image: string | null = null;
   createdAt: string = '';
   updatedAt: string = '';
-  tablesCount: number = 5;
+  tableIds: string[] = [];
 }
 
 export class InvitaionByEventDto {
@@ -67,6 +68,8 @@ export class InvitationByUserId {
   status: InvitationStatus = InvitationStatus.Pending;
   optionsId: string | null = null;
   createdAt: string = '';
+  tableId: string = '';
+  table?: TableDto = new TableDto();
   updatedAt: string = '';
   paymentUrl: string = '';
   completedDate: string | Date | null = null;

@@ -26,35 +26,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import * as yup from 'yup';
 import EventDetailsCard from './EventDetailsCard';
-
-const ApproveHandler = ({
-  value,
-  onChange,
-}: {
-  value: boolean;
-  onChange?: (val: boolean) => void;
-}) => {
-  return (
-    <div className=" flex items-center gap-2">
-      <div
-        onClick={() => onChange(true)}
-        className={` px-5 py-1 ${
-          value ? 'bg-success' : 'bg-success/30'
-        }  rounded-xl text-white cursor-pointer`}
-      >
-        Ja
-      </div>
-      <div
-        onClick={() => onChange(false)}
-        className={` px-5 py-1 ${
-          !value ? 'bg-error' : 'bg-error/30'
-        }  rounded-xl text-white cursor-pointer`}
-      >
-        Nein
-      </div>
-    </div>
-  );
-};
+import ApproveHandler from './Custom/ApproveHandler';
 
 export const ProductList = ({
   productList,
@@ -147,8 +119,11 @@ const validationSchema = yup.object().shape({
 });
 
 function EventByUser() {
-  const { GetUserData, LogOut } = useVipAuth();
   const { id } = useParams();
+  const { counter } = useCountDown();
+  //auth
+  const { GetUserData, LogOut } = useVipAuth();
+  // Event Data
   const { data } = useEventByIdQueries(id);
   const {
     data: invitaion,
@@ -158,6 +133,7 @@ function EventByUser() {
     eventId: id,
     vipId: GetUserData()?.id,
   });
+  // FormState
   const [FormState, setFormState] = React.useState<CreateVipInvitaion>(
     new CreateVipInvitaion()
   );
@@ -170,23 +146,20 @@ function EventByUser() {
     { id: string; quantity: number; name: string; price: number }[]
   >([]);
   const { mutate: deleteInvite, isPending: isDeleting } = MutateDeleteInvite();
-  const { counter } = useCountDown();
+
+  // Count Down
   const [CountDown, setCountDown] = React.useState<countDownDto | null>(null);
   const startedRef = React.useRef(false);
   const [multiple, setMultiple] = React.useState<boolean>(false);
-  // Total Pice
-  const TotalPrice = React.useMemo(() => {
-    if (productList && selectedItems.length > 0) {
-      const total = selectedItems.reduce((acc, curr) => {
-        return (acc =
-          acc +
-          productList.find((product) => product.id == curr.id)?.price *
-            curr.quantity);
-      }, 0);
-      return total;
+
+  React.useEffect(() => {
+    if (data?.event.date && !startedRef.current) {
+      startedRef.current = true;
+      setInterval(() => {
+        setCountDown(counter(data?.event.date));
+      }, 1000);
     }
-    return 0;
-  }, [productList, selectedItems]);
+  }, [data]);
 
   // Is Ended
   const isEnded = React.useMemo(() => {
@@ -201,14 +174,19 @@ function EventByUser() {
     return false;
   }, [CountDown]);
 
-  React.useEffect(() => {
-    if (data?.date && !startedRef.current) {
-      startedRef.current = true;
-      setInterval(() => {
-        setCountDown(counter(data?.date));
-      }, 1000);
+  // Total Pice
+  const TotalPrice = React.useMemo(() => {
+    if (productList && selectedItems.length > 0) {
+      const total = selectedItems.reduce((acc, curr) => {
+        return (acc =
+          acc +
+          productList.find((product) => product.id == curr.id)?.price *
+            curr.quantity);
+      }, 0);
+      return total;
     }
-  }, [data]);
+    return 0;
+  }, [productList, selectedItems]);
 
   const createInvitaion = () => {
     create(
@@ -278,10 +256,10 @@ function EventByUser() {
   return (
     <div className=" z-[2] relative px-1 container my-10 ">
       {!invitaion && (
-        <p className=" bg-primary/50 text-white p-3">
+        <p className=" bg-white text-primary p-3 rounded-md">
           {' '}
           Hi ,
-          <span className=" text-success font-semibold">
+          <span className=" text-success font-bold">
             {' '}
             {GetUserData()?.name}
           </span>{' '}
@@ -292,7 +270,11 @@ function EventByUser() {
           können.
         </p>
       )}
-      <EventDetailsCard CountDown={CountDown} data={data} isEnded={isEnded} />
+      <EventDetailsCard
+        CountDown={CountDown}
+        data={data.event}
+        isEnded={isEnded}
+      />
       {!invitaion && !isEnded && (
         <Paper className=" p-4 ">
           <Formik onSubmit={null} initialValues={FormState}>
@@ -378,63 +360,122 @@ function EventByUser() {
                   </div>
                 )}
 
-                {data.tablesCount > 0 && (
-                  <div>
-                    <div className=" flex items-center flex-wrap gap-2 my-2">
-                      <FormLabel>Benötigen Sie einen Lieferservice?</FormLabel>
-                      <ApproveHandler
-                        value={FormState.deliveryOption}
-                        onChange={(val) => {
-                          setFormState({ ...FormState, deliveryOption: val });
-                        }}
-                      />
-                    </div>
-
-                    {FormState.deliveryOption && (
-                      <div className=" flex gap-2 flex-col my-7">
-                        <FormikControl
-                          value={FormState.deliveryAddress}
-                          Fn={(val) => {
-                            setFormState({
-                              ...FormState,
-                              deliveryAddress: val,
-                            });
-                          }}
-                          label={'Provide your address'}
-                          fullWidth
-                          placeholder="Provide your address"
-                          Fieldtype="textField"
-                          type="text"
-                          name="address"
-                        />
-                        <LocalizationProvider dateAdapter={AdapterDateFns}>
-                          <TimePicker
-                            label="Pickup Date"
-                            value={FormState.deliveryDate}
-                            onChange={(val) => {
-                              setFormState({ ...FormState, deliveryDate: val });
-                            }}
-                          />
-                        </LocalizationProvider>
-                      </div>
-                    )}
-                  </div>
-                )}
                 <div>
                   <div className=" flex items-center flex-wrap gap-2 my-2">
-                    <FormLabel>Do You Want Table Reservation?</FormLabel>
+                    <FormLabel>Benötigen Sie einen Lieferservice?</FormLabel>
                     <ApproveHandler
-                      value={FormState.tableReservation}
+                      value={FormState.deliveryOption}
                       onChange={(val) => {
-                        setFormState({ ...FormState, tableReservation: val });
+                        setFormState({ ...FormState, deliveryOption: val });
                       }}
                     />
                   </div>
+
+                  {FormState.deliveryOption && (
+                    <div className=" flex gap-2 flex-col my-7">
+                      <FormikControl
+                        value={FormState.deliveryAddress}
+                        Fn={(val) => {
+                          setFormState({
+                            ...FormState,
+                            deliveryAddress: val,
+                          });
+                        }}
+                        label={'Geben Sie Ihre Adresse an'}
+                        fullWidth
+                        placeholder="Geben Sie Ihre Adresse an"
+                        Fieldtype="textField"
+                        type="text"
+                        name="address"
+                      />
+                      <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <TimePicker
+                          label="Abholdatum"
+                          value={FormState.deliveryDate}
+                          onChange={(val) => {
+                            setFormState({ ...FormState, deliveryDate: val });
+                          }}
+                        />
+                      </LocalizationProvider>
+                    </div>
+                  )}
                 </div>
-                {CountDown?.day >= 1 && (
+                {data?.AvailableTables.length > 0 && (
+                  <>
+                    <div>
+                      <div className=" flex items-center flex-wrap gap-2 my-2">
+                        <FormLabel>
+                          Wünschen Sie eine Tischreservierung?
+                        </FormLabel>
+                        <ApproveHandler
+                          value={FormState.tableReservation}
+                          onChange={(val) => {
+                            setFormState({
+                              ...FormState,
+                              tableReservation: val,
+                            });
+                          }}
+                        />
+                      </div>
+                    </div>
+                    {FormState.tableReservation && (
+                      <>
+                        <div className=" grid grid-cols-2 md:grid-cols-3 gap-3">
+                          {data?.AllTablesDetails.filter((item) =>
+                            data?.AvailableTables.includes(item.id)
+                          ).map((item, index) => {
+                            return (
+                              <div
+                                onClick={() => {
+                                  setFormState({
+                                    ...FormState,
+                                    tableId:
+                                      FormState.tableId == item.id
+                                        ? null
+                                        : item.id,
+                                  });
+                                }}
+                                key={index}
+                                className={` ${
+                                  FormState.tableId == item.id
+                                    ? 'bg-primary'
+                                    : 'bg-white'
+                                } cursor-pointer p-3 rounded-md shadow-lg border-primary border-[3px]`}
+                              >
+                                <div className=" bg-secondary flex items-center justify-center rounded-md">
+                                  <MuiIcon
+                                    name="TableBar"
+                                    sx={{ fontSize: 60, color: '#fff' }}
+                                  />
+                                </div>
+                                <div className=" flex items-center justify-between mt-3 gap-3">
+                                  <div className=" flex-1 flex  items-center justify-center gap-2 text-white bg-secondary p-2 rounded-md">
+                                    <MuiIcon name="Chair" />
+                                    <p>{item.seats}</p>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        {multiple &&
+                          data?.AllTablesDetails?.find(
+                            (table) => table?.id == FormState?.tableId
+                          )?.seats <
+                            FormState?.peopleNames?.length + 1 && (
+                            <div className=" text-red-500 font-semibold text-[12px]">
+                              * Warning The Table Seats is Less than the
+                              Incoming People.
+                            </div>
+                          )}
+                      </>
+                    )}
+                  </>
+                )}
+                {CountDown?.day >= 1 && productList?.length > 0 && (
                   <div>
                     <div className=" flex items-center flex-wrap gap-2 my-2">
-                      <FormLabel>Do you Want any products?</FormLabel>
+                      <FormLabel>Möchten Sie Produkte?</FormLabel>
                       <ApproveHandler
                         value={FormState.productsOption}
                         onChange={(val) => {
@@ -459,7 +500,7 @@ function EventByUser() {
                   </div>
                 )}
               </div>
-              <div className="flex items-center justify-center mt-6">
+              <div className="flex items-center justify-center  bg-primary p-3 rounded-md shadow-md">
                 {TotalPrice == 0 || !FormState.productsOption ? (
                   <SuccessBtn loading={isCreating} onClick={createInvitaion}>
                     Beitrittsanfrage
@@ -492,18 +533,19 @@ function EventByUser() {
         {invitaion?.status == 'pending' && (
           <div className=" py-5">
             <p className=" text-7  text-primary  p-2">
-              You Already have a Pending Request , and you have a bill must paid
-              , your request will be deleted after 10 minutes from creation if
-              you dont pay it and you can create a new request after that.
+              Sie haben bereits eine ausstehende Anfrage und eine Rechnung muss
+              bezahlt werden , Ihre Anfrage wird 10 Minuten nach der Erstellung
+              gelöscht, wenn Sie zahlen es nicht und können danach eine neue
+              Anfrage erstellen.
             </p>
-            <div className=" flex items-center justify-center gap-4 ">
+            <div className=" flex items-center justify-center gap-4 px-2">
               <a
                 href={invitaion?.paymentUrl}
                 target="_self"
                 className=" text-center text-primary bg-success p-3 font-semibold rounded-md text-[12px] flex items-center gap-1"
               >
                 <MuiIcon name="Payment" />
-                Go To Payment
+                Gehen Sie zur Zahlung
               </a>
               <button
                 disabled={isDeleting}
@@ -511,7 +553,7 @@ function EventByUser() {
                 className=" text-center text-white bg-error p-3 font-semibold rounded-md text-[12px] flex items-center gap-1"
               >
                 <MuiIcon name="Cancel" />
-                Delete My Request
+                Meine Anfrage löschen
               </button>
             </div>
           </div>

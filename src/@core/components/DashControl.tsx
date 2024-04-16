@@ -6,7 +6,7 @@ import { useAuth } from '@src/Auth/useAuth';
 function DashControl() {
   const { LogOut } = useAuth();
   return (
-    <div className=" flex items-center gap-2 ">
+    <div className=" flex items-center gap-2  ">
       <IconButton>
         <MuiIcon name="Person" className="text-white" />
       </IconButton>
