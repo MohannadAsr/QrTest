@@ -232,12 +232,12 @@ function EventByUser() {
     link.click();
   };
 
-  // if (isLoading)
-  //   return (
-  //     <div className=" my-10 flex items-center justify-center">
-  //       <CircularProgress color="inherit" className=" text-white z-[2]" />
-  //     </div>
-  //   );
+  if (isLoading)
+    return (
+      <div className=" my-10 flex items-center justify-center">
+        <CircularProgress color="inherit" className=" text-white z-[2]" />
+      </div>
+    );
 
   if (!data)
     return (
