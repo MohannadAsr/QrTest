@@ -141,44 +141,46 @@ function CreateEvents() {
                       name="description"
                     />
                   </div>
-                  <div className="col-span-1 md:col-span-2">
-                    <InputLabel id="demo-simple-select-label">
-                      Ereignistabellen (Klicken Sie, um Tabellen auszuwählen)
-                    </InputLabel>
+                  {tabels?.length > 0 && (
+                    <div className="col-span-1 md:col-span-2">
+                      <InputLabel id="demo-simple-select-label">
+                        Ereignistabellen (Klicken Sie, um Tabellen auszuwählen)
+                      </InputLabel>
 
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 mt-4 ">
-                      {tabels?.map((item, index) => {
-                        return (
-                          <div
-                            onClick={() => handleSwitchTable(item.id)}
-                            key={index}
-                            className={` ${
-                              formValues.tableIds.includes(item.id)
-                                ? 'bg-primary'
-                                : 'bg-white/90'
-                            }  p-3 rounded-md shadow-lg border-primary border-[3px] cursor-pointer`}
-                          >
-                            <div className=" bg-secondary flex items-center justify-center rounded-md">
-                              <MuiIcon
-                                name="TableBar"
-                                sx={{ fontSize: 60, color: '#fff' }}
-                              />
-                            </div>
-                            <div className=" flex items-center justify-between mt-3 gap-3">
-                              <div className="flex-1 flex flex-col items-center justify-center gap-2 text-white bg-secondary p-2 rounded-md">
-                                <MuiIcon name="Numbers" />
-                                <p>{item.number}</p>
+                      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 mt-4 ">
+                        {tabels?.map((item, index) => {
+                          return (
+                            <div
+                              onClick={() => handleSwitchTable(item.id)}
+                              key={index}
+                              className={` ${
+                                formValues.tableIds.includes(item.id)
+                                  ? 'bg-primary'
+                                  : 'bg-white/90'
+                              }  p-3 rounded-md shadow-lg border-primary border-[3px] cursor-pointer`}
+                            >
+                              <div className=" bg-secondary flex items-center justify-center rounded-md">
+                                <MuiIcon
+                                  name="TableBar"
+                                  sx={{ fontSize: 60, color: '#fff' }}
+                                />
                               </div>
-                              <div className=" flex-1 flex flex-col items-center justify-center gap-2 text-white bg-secondary p-2 rounded-md">
-                                <MuiIcon name="Chair" />
-                                <p>{item.seats}</p>
+                              <div className=" flex items-center justify-between mt-3 gap-3">
+                                <div className="flex-1 flex flex-col items-center justify-center gap-2 text-white bg-secondary p-2 rounded-md">
+                                  <MuiIcon name="Numbers" />
+                                  <p>{item.number}</p>
+                                </div>
+                                <div className=" flex-1 flex flex-col items-center justify-center gap-2 text-white bg-secondary p-2 rounded-md">
+                                  <MuiIcon name="Chair" />
+                                  <p>{item.seats}</p>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
                 <div className=" mt-5 flex justify-end items-center">
                   <SuccessBtn
