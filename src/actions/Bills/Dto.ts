@@ -6,5 +6,5 @@ export class BillDto {
   createdAt: string = '';
   updatedAt: string = '';
   invitation: InvitationDetails = new InvitationDetails();
-  billDetails: { amount_total: number } = { amount_total: 0 };
+  amount: number = 0;
 }

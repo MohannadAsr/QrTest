@@ -7,4 +7,5 @@ export enum Invitations_API {
   RejectInvitation = '/api/invitaions/rejectInvitation',
   UPDATEStatus = '/api/invitaions/updateStatus',
   InvitaionById = '/api/invitaions/',
+  UPDATE = '/api/invitaions/update',
 }

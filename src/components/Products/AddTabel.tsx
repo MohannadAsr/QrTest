@@ -59,14 +59,14 @@ function AddTabel({
           sx={{ minWidth: 150 }}
           startIcon={<MuiIcon name="Add" />}
         >
-          Neuer Tisch
+          Neue Tisch
         </SuccessBtn>
       ) : (
         <span onClick={() => setOpen(true)}>{customBtn}</span>
       )}
       <DashDialog
         open={open}
-        title={'Neuer Tisch'}
+        title={'Neue Tisch'}
         handleClose={() => setOpen(false)}
         body={
           <>

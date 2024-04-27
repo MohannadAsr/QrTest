@@ -26,6 +26,7 @@ import MuiIcon from '@src/@core/components/MuiIcon';
 import TableError from './TableError';
 import TextTranslation from '../Translation/TextTranslation';
 import { lightTheme } from '@src/@core/Providers/DashThemeProvider';
+import TableLoading from './TableLoading';
 
 function DashTable({
   name,
@@ -79,15 +80,7 @@ function DashTable({
       : setSelectedIds([...data.map((item) => item.id)]);
   };
 
-  if (isLoading)
-    return (
-      <div className=" my-10 flex justify-center items-center flex-col text-primary font-bold gap-2">
-        <p>
-          <TextTranslation>Loading ,Please Wait</TextTranslation>
-        </p>
-        <CircularProgress />
-      </div>
-    );
+  if (isLoading) return <TableLoading />;
 
   return (
     <div className=" flex flex-col gap-3 mt-6">
@@ -101,7 +94,7 @@ function DashTable({
             onClick={onDelete}
             variant="contained"
           >
-            <TextTranslation>Delete</TextTranslation> ({selectedIds?.length})
+            <TextTranslation>Löschen</TextTranslation> ({selectedIds?.length})
           </ErrorButton>
         )}
       </div>

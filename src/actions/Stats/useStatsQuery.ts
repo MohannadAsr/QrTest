@@ -26,3 +26,20 @@ export const useStatsQuery = (query: { currentYear: string }) => {
     enabled: false,
   });
 };
+
+// Bills
+const getBillsStats = async (query: { currentYear: string }) => {
+  const response = await GET<{
+    year: string;
+    Bills: monthsStats[];
+  }>(STATS_API.bills, query);
+  return response.data;
+};
+
+export const useBillsStatsQuery = (query: { currentYear: string }) => {
+  return useQuery({
+    queryKey: ['BillsStats'],
+    queryFn: () => getBillsStats(query),
+    enabled: false,
+  });
+};

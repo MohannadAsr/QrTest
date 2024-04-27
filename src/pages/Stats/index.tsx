@@ -5,7 +5,10 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import MuiIcon from '@src/@core/components/MuiIcon';
 
 import ApexBarChart from '@src/@core/shared/ApexBarChart';
-import { useStatsQuery } from '@src/actions/Stats/useStatsQuery';
+import {
+  useBillsStatsQuery,
+  useStatsQuery,
+} from '@src/actions/Stats/useStatsQuery';
 import { useCustomHooks } from '@src/hooks/useCustomHooks';
 import React from 'react';
 
@@ -22,11 +25,20 @@ function StatsPage() {
   const [year, setYear] = React.useState<string>(
     new Date().getFullYear().toString()
   );
+  const [yearBills, setYearBills] = React.useState<string>(
+    new Date().getFullYear().toString()
+  );
   const { data, isFetching, refetch } = useStatsQuery({ currentYear: year });
+  const {
+    data: Bills,
+    isFetching: FetchingBills,
+    refetch: refetchBills,
+  } = useBillsStatsQuery({ currentYear: yearBills });
   const { useTimerFn } = useCustomHooks();
 
   React.useEffect(() => {
     refetch();
+    refetchBills();
   }, []);
 
   return (
@@ -63,10 +75,44 @@ function StatsPage() {
             Statistiken für das Jahr {data?.year}
           </p>
           <ApexBarChart
+            title={'Komplette Anzahl'}
             data={[
               { name: 'Veranstaltungen', data: dataToMonths(data?.events) },
               { name: 'Einladungen', data: dataToMonths(data?.invitations) },
               { name: "VIP'S", data: dataToMonths(data?.vips) },
+            ]}
+          />
+        </div>
+
+        <div className="mt-7 bg-white shadow-md p-4 flex flex-col gap-3">
+          <div className=" flex items-center gap-2 flex-wrap">
+            <FormLabel>Wählen Sie das Jahr aus</FormLabel>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                format="yyyy"
+                openTo="year"
+                value={new Date(yearBills)}
+                onChange={(value) => {
+                  setYearBills(new Date(value).getFullYear().toString());
+                }}
+              />
+            </LocalizationProvider>
+            <LoadingButton
+              color="primary"
+              onClick={() => refetchBills()}
+              loading={FetchingBills}
+              startIcon={<MuiIcon name="Search" />}
+            >
+              Suchen
+            </LoadingButton>
+          </div>
+          <p className=" font-bold text-white bg-primary p-4 rounded-md">
+            Statistiken für das Jahr {Bills?.year}
+          </p>
+          <ApexBarChart
+            title={'Gesamtmenge'}
+            data={[
+              { name: 'Total Benefits', data: dataToMonths(Bills?.Bills) },
             ]}
           />
         </div>

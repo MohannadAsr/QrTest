@@ -10,7 +10,6 @@ import Vips from '@src/pages/Vips';
 import Events from '@src/pages/Events/Events';
 import CreateEvents from '@src/pages/Events/CreateEvent';
 import EventDetails from '@src/pages/Events/EventDetails';
-import EventAccess from '@src/pages/EventAccess';
 import QrScanner from '@src/pages/QrScanner';
 import ProductPage from '@src/pages/Products';
 import Bills from '@src/pages/Bills';
@@ -60,13 +59,6 @@ export const NavigationRoutes: (DashNaviagtionProps | DashTitleProps)[] = [
     path: '/events/create',
     component: <CreateEvents />,
     icon: null,
-  },
-  {
-    name: 'event-Invite',
-    path: '/eventaccess/:id',
-    component: <EventAccess />,
-    icon: null,
-    layout: 'blank',
   },
   {
     name: 'eventById',

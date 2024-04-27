@@ -11,7 +11,7 @@ const ApproveHandler = ({
         onClick={() => onChange(true)}
         className={` px-5 py-1 ${
           value ? 'bg-success' : 'bg-success/30'
-        }  rounded-xl text-white cursor-pointer`}
+        }  font-medium text-white cursor-pointer shadow-lg rounded-md`}
       >
         Ja
       </div>
@@ -19,7 +19,7 @@ const ApproveHandler = ({
         onClick={() => onChange(false)}
         className={` px-5 py-1 ${
           !value ? 'bg-error' : 'bg-error/30'
-        }  rounded-xl text-white cursor-pointer`}
+        }  font-medium text-white cursor-pointer shadow-lg rounded-md`}
       >
         Nein
       </div>

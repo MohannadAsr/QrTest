@@ -2,7 +2,9 @@ import EventDetailsCard from '@components/EventAccess/EventDetailsCard';
 import EventInvitaions from '@components/Events/EventInvitaions';
 import { TextField } from '@mui/material';
 import MuiIcon from '@src/@core/components/MuiIcon';
+import CustomChip from '@src/@core/shared/Customs/CustomChip';
 import DashDialog from '@src/@core/shared/Dialog/DashDialog';
+import TableLoading from '@src/@core/shared/Table/TableLoading';
 import {
   MutateDeleteEvent,
   useEventByIdQueries,
@@ -22,7 +24,7 @@ export function isMobileDevice() {
 function EventDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { data, isLoading } = useEventByIdQueries(id);
+  const { data, isLoading, isError } = useEventByIdQueries(id);
   const { counter } = useCountDown();
   const [CountDown, setCountDown] = React.useState<countDownDto | null>(null);
   const startedRef = React.useRef(false);
@@ -65,7 +67,6 @@ function EventDetails() {
     );
   };
 
-  if (isLoading) return <></>;
   return (
     <>
       <div>
@@ -79,36 +80,82 @@ function EventDetails() {
             </p>
           </div>
         </div>
-        <div className=" grid grid-cols-12">
-          <div className=" w-full  col-span-12  gap-5 mt-5 mx-auto p-1">
-            <div className=" p-2 bg-white rounded-md flex items-center gap-2">
-              <SuccessBtn
-                startIcon={<MuiIcon name="Share" />}
-                onClick={() => setOpen(true)}
-              >
-                Aktie
-              </SuccessBtn>
-              <ErrorBtn
-                onClick={handleDelete}
-                startIcon={<MuiIcon name="Delete" />}
-              >
-                Löschen
-              </ErrorBtn>
+        {isLoading ? (
+          <TableLoading />
+        ) : (
+          <>
+            <div className=" grid grid-cols-12">
+              <div className=" w-full  col-span-12  gap-5 mt-5 mx-auto p-1">
+                <div className=" p-2 bg-white rounded-md flex items-center gap-2">
+                  <SuccessBtn
+                    startIcon={<MuiIcon name="Share" />}
+                    onClick={() => setOpen(true)}
+                  >
+                    Aktie
+                  </SuccessBtn>
+                  <ErrorBtn
+                    onClick={handleDelete}
+                    startIcon={<MuiIcon name="Delete" />}
+                  >
+                    Löschen
+                  </ErrorBtn>
+                </div>
+                <EventDetailsCard
+                  CountDown={CountDown}
+                  data={data?.event}
+                  isEnded={[
+                    CountDown?.day,
+                    CountDown?.hour,
+                    CountDown?.minute,
+                    CountDown?.second,
+                  ].every((item) => item <= 0)}
+                />
+              </div>
+              <div className=" "></div>
             </div>
-            <EventDetailsCard
-              CountDown={CountDown}
-              data={data.event}
-              isEnded={[
-                CountDown?.day,
-                CountDown?.hour,
-                CountDown?.minute,
-                CountDown?.second,
-              ].every((item) => item <= 0)}
-            />
-          </div>
-        </div>
-
-        <EventInvitaions />
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 mt-4">
+              {data?.AllTablesDetails?.map((item, index) => {
+                return (
+                  <div
+                    key={index}
+                    className=" bg-white/90 p-3 rounded-md shadow-lg border-primary border-[3px] relative"
+                  >
+                    <div className=" bg-secondary flex items-center justify-center rounded-md">
+                      <MuiIcon
+                        name="TableBar"
+                        sx={{ fontSize: 60, color: '#fff' }}
+                      />
+                    </div>
+                    <div className=" flex items-center justify-between mt-3 gap-3">
+                      <div className="flex-1 flex flex-col items-center justify-center gap-2 text-white bg-secondary p-2 rounded-md">
+                        <MuiIcon name="Numbers" />
+                        <p>{item.number}</p>
+                      </div>
+                      <div className=" flex-1 flex flex-col items-center justify-center gap-2 text-white bg-secondary p-2 rounded-md">
+                        <MuiIcon name="Chair" />
+                        <p>{item.seats}</p>
+                      </div>
+                    </div>
+                    <div className=" flex items-center justify-center mt-3">
+                      {!data?.AvailableTables.includes(item.id) ? (
+                        <CustomChip
+                          label={'Ausgebucht'}
+                          Customcolor={'#ef4444'}
+                        />
+                      ) : (
+                        <CustomChip
+                          label=" Verfügbar"
+                          Customcolor={'#3EA666'}
+                        />
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <EventInvitaions event={data} />
+          </>
+        )}
       </div>
       <DashDialog
         title={'Teilen Sie Ihre Veranstaltung'}

@@ -16,6 +16,8 @@ import { PaginationControlDTO } from '@src/actions/Vips/Dto';
 import React from 'react';
 import { boolean } from 'yup';
 import { useCustomHooks } from '@src/hooks/useCustomHooks';
+import { EventDTO } from '@src/actions/Events/Dto';
+import { TableDto } from '@src/actions/Products/Dto';
 
 export class InvitationsFilters {
   name: string = '';
@@ -23,7 +25,15 @@ export class InvitationsFilters {
   deliveryOption: 1 | 0 | null = null;
 }
 
-function EventInvitaions() {
+function EventInvitaions({
+  event,
+}: {
+  event: {
+    event: EventDTO;
+    AvailableTables: string[];
+    AllTablesDetails: TableDto[];
+  };
+}) {
   const [pagination, setPagination] = React.useState<PaginationControlDTO>(
     new PaginationControlDTO()
   );
@@ -126,7 +136,14 @@ function EventInvitaions() {
             {data?.data.length !== 0 ? (
               <div className=" grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3  gap-4 ">
                 {data?.data?.map((card, index) => {
-                  return <InvitationCard key={index} invite={card} />;
+                  return (
+                    <InvitationCard
+                      event={event}
+                      key={index}
+                      invite={card}
+                      refetch={() => refetch()}
+                    />
+                  );
                 })}
               </div>
             ) : (

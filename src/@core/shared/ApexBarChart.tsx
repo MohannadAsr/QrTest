@@ -3,7 +3,7 @@ import React from 'react';
 import Chart from 'react-apexcharts';
 import { useSelector } from 'react-redux';
 
-const ApexBarChart = ({ data }) => {
+const ApexBarChart = ({ data, title }) => {
   const { mode } = useSelector((state: RootState) => state.App);
 
   const chartData = React.useMemo<{
@@ -35,7 +35,7 @@ const ApexBarChart = ({ data }) => {
         },
         yaxis: {
           title: {
-            text: 'Komplette Anzahl',
+            text: title,
           },
         },
         xaxis: {

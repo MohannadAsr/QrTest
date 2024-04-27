@@ -36,11 +36,11 @@ const EventDetailsCard = ({ data, isEnded, CountDown }) => {
               <div className=" flex justify-evenly items-center gap-3 text-6 text-center  text-white text-7">
                 <p className=" bg-primary/80 p-3 rounded-lg flex-1 flex md:flex-row flex-col gap-0 md:gap-2">
                   <span className="text-success text-6">{CountDown.day}</span>{' '}
-                  Tag
+                  Tage
                 </p>
                 <p className=" bg-primary/80 p-3 rounded-lg flex-1 flex md:flex-row flex-col gap-0 md:gap-2">
                   <span className="text-success text-6"> {CountDown.hour}</span>{' '}
-                  Std
+                  Std.
                 </p>
                 <p className=" bg-primary/80 p-3 rounded-lg flex-1 flex md:flex-row flex-col gap-0 md:gap-2">
                   <span className="text-success text-6">

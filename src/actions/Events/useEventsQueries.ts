@@ -94,6 +94,7 @@ export const useInvitaionsByEventQuery = (
     queryKey: ['invitaionsById', id],
     queryFn: () => getEventInvitations(id, pagination, filter),
     refetchOnWindowFocus: false,
+    enabled: false,
   });
 };
 

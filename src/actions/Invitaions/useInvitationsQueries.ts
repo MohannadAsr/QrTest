@@ -1,33 +1,18 @@
 import { useApi } from '@src/hooks/useApi';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
-  CreateVipInvitaion,
+  CreateVipInvitaionDto,
   InvitationDetails,
   UpdateInvitaionStatusDTO,
+  UpdateVipInvitation,
 } from './Dto';
 import { Invitations_API } from './EndPoints';
 import { InvitaionByEventDto, InvitationByUserId } from '../Events/Dto';
 
 const { POST, GET, DELETE } = useApi();
 
-const UpdateInvitaionStatus = async (payload: UpdateInvitaionStatusDTO) => {
-  const response = await POST(Invitations_API.UpdateInvitaionStatus, payload);
-  return response;
-};
-const CreateInvitation = async (payload: CreateVipInvitaion) => {
-  const response = await POST(Invitations_API.main, payload);
-  return response;
-};
 const UpdateStatus = async (payload: { id: string; status: string }) => {
   const response = await POST(Invitations_API.UPDATEStatus, payload);
-  return response.data;
-};
-const approveInvitation = async (payload: { id: string }) => {
-  const response = await POST(Invitations_API.ApproveInvitation, payload);
-  return response.data;
-};
-const RejectInvitation = async (payload: { id: string }) => {
-  const response = await POST(Invitations_API.RejectInvitation, payload);
   return response.data;
 };
 
@@ -49,50 +34,6 @@ const getInviteDetails = async (id: string) => {
     Invitations_API.InvitaionById + id
   );
   return response.data.data;
-};
-
-export const MutateUpdateInvitaionStatus = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationKey: ['updateStatus'],
-    mutationFn: (payload: UpdateInvitaionStatusDTO) =>
-      UpdateInvitaionStatus(payload),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['invitaionsById'] });
-    },
-  });
-};
-
-export const MutateApproveInvitation = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationKey: ['approveInvitation'],
-    mutationFn: (payload: { id: string }) => approveInvitation(payload),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['invitaionsById'] });
-    },
-  });
-};
-export const MutateRejectInvitation = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationKey: ['RejectInvitation'],
-    mutationFn: (payload: { id: string }) => RejectInvitation(payload),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['invitaionsById'] });
-    },
-  });
-};
-
-export const MutateCreateInvitation = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationKey: ['createInvitation'],
-    mutationFn: (payload: CreateVipInvitaion) => CreateInvitation(payload),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['invitaionVip'] });
-    },
-  });
 };
 
 export const useVipInvitaion = (payload: {
@@ -126,5 +67,23 @@ export const MutateDeleteInvite = () => {
   return useMutation({
     mutationKey: ['DeleteInvite'],
     mutationFn: (id: string) => DeleteInvitation(id),
+  });
+};
+
+// Update Invitation
+
+const updateInvitation = async (payload: UpdateVipInvitation) => {
+  const response = await POST(Invitations_API.UPDATE, payload);
+  return response.data;
+};
+
+export const MutateUpdateInvitation = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ['UpdateInvite'],
+    mutationFn: (payload: UpdateVipInvitation) => updateInvitation(payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['invitaionsById'] });
+    },
   });
 };

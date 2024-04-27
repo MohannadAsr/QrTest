@@ -1,17 +1,49 @@
 import { Button, Card, IconButton } from '@mui/material';
 import MuiIcon from '@src/@core/components/MuiIcon';
-import { InvitaionByEventDto } from '@src/actions/Events/Dto';
+import { EventDTO, InvitaionByEventDto } from '@src/actions/Events/Dto';
 import InvitationScan from '@src/pages/QrScanner/InvitationScan';
 import React from 'react';
 import { format } from 'date-fns';
+import EditInvitation from '@src/pages/Events/EditInvite/EditInvitation';
+import { TableDto } from '@src/actions/Products/Dto';
 
-function InvitationCard({ invite }: { invite: InvitaionByEventDto }) {
+function InvitationCard({
+  invite,
+  event,
+  refetch,
+}: {
+  invite: InvitaionByEventDto;
+  event: {
+    event: EventDTO;
+    AvailableTables: string[];
+    AllTablesDetails: TableDto[];
+  };
+  refetch: () => void;
+}) {
   const [open, setOpen] = React.useState<boolean>(false);
+  const [edit, setEdit] = React.useState<boolean>(false);
   const [id, setId] = React.useState<string>('');
+  const [EditId, seEdittId] = React.useState<string>('');
+
+  const refetchData = () => {
+    refetch();
+  };
 
   return (
     <>
-      <InvitationScan id={id} setOpen={setOpen} open={open} />
+      <InvitationScan
+        id={id}
+        setOpen={setOpen}
+        open={open}
+        refetch={refetchData}
+      />
+      <EditInvitation
+        id={EditId}
+        setOpen={setEdit}
+        open={edit}
+        event={event}
+        refetch={refetchData}
+      />
       <Card className=" p-3 flex flex-col gap-2 text-[18px] relative ">
         <div className=" flex items-center justify-between">
           <div>
@@ -43,10 +75,15 @@ function InvitationCard({ invite }: { invite: InvitaionByEventDto }) {
             {invite?.status == 'missed' && (
               <MuiIcon name="Close" color="error" />
             )}
+            <IconButton
+              onClick={() => {
+                seEdittId(invite.id);
+                setEdit(true);
+              }}
+            >
+              <MuiIcon name="Edit" />
+            </IconButton>
           </span>
-          {/* <div className=" flex items-center  gap-2">
-            <Button startIcon={<MuiIcon name="Edit" />}>Edit</Button>
-          </div> */}
         </div>
 
         <div className=" ">

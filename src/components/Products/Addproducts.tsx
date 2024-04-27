@@ -61,14 +61,14 @@ function Addproducts({
           sx={{ minWidth: 150 }}
           startIcon={<MuiIcon name="Add" />}
         >
-          Neuen Produkte hinzufügen
+          Neue Produkte hinzufügen
         </SuccessBtn>
       ) : (
         <span onClick={() => setOpen(true)}>{customBtn}</span>
       )}
       <DashDialog
         open={open}
-        title={'Neuen Produkte hinzufügen'}
+        title={'Neue Produkte hinzufügen'}
         handleClose={() => setOpen(false)}
         body={
           <>

@@ -56,7 +56,7 @@ function Bills() {
                 />
                 {item.invitation?.event?.name || 'Unknown'}{' '}
               </div>,
-              <p>{(item.billDetails.amount_total / 100).toFixed(2)} €</p>,
+              <p>{item?.amount?.toFixed(2)} €</p>,
             ],
           };
         })}

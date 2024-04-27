@@ -143,7 +143,7 @@ function CreateEvents() {
                   </div>
                   {tabels?.length > 0 && (
                     <div className="col-span-1 md:col-span-2">
-                      <InputLabel id="demo-simple-select-label">
+                      <InputLabel>
                         Ereignistabellen (Klicken Sie, um Tabellen auszuwählen)
                       </InputLabel>
 

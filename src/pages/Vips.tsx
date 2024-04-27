@@ -11,13 +11,15 @@ import { format } from 'date-fns';
 import { PaginationControlDTO, VIPDTO } from '@src/actions/Vips/Dto';
 import AddVip from '@components/Vips/AddVip';
 import DashTable from '@src/@core/shared/Table/DashTable';
+import { useToast } from '@src/hooks/useToast';
 
 const VipRequestCard = ({ reqeust }: { reqeust: VIPDTO }) => {
   const { mutate: accept } = MutateAcceptVipRequest();
   const { mutate: reject } = MutateRejectVipRequest();
+  const { toast } = useToast();
 
   return (
-    <div className=" grid grid-cols-12 bg-primary/70 rounded-md text-white p-6 ">
+    <div className=" grid grid-cols-12 bg-primary/90 rounded-md text-white p-6  shadow-md border-[2px] border-white">
       <div className="col-span-8 flex flex-col gap-1 text-[14px]">
         <div className=" flex gap-1 items-center">
           <MuiIcon name="Person" /> <p>{reqeust.name}</p>
@@ -29,17 +31,21 @@ const VipRequestCard = ({ reqeust }: { reqeust: VIPDTO }) => {
           <MuiIcon name="Phone" /> <p>{reqeust.phone || 'None'}</p>
         </div>
       </div>
-      <div className=" col-span-4 flex items-center justify-end gap-1 ">
+      <div className=" col-span-4 flex items-center justify-end gap-2 ">
         <div
-          className=" p-2 rounded-full bg-secondary cursor-pointer hover:bg-primary"
+          className=" p-2 rounded-full bg-success/10 cursor-pointer hover:bg-primary border-[1px] border-white"
           onClick={() => {
-            accept(reqeust.id);
+            accept(reqeust.id, {
+              onSuccess: () => {
+                toast('Vip Accepted Successfully', 'success');
+              },
+            });
           }}
         >
           <MuiIcon name="Check" color="success" />
         </div>
         <div
-          className=" p-2 rounded-full bg-secondary cursor-pointer hover:bg-primary"
+          className=" p-2 rounded-full bg-error/10 cursor-pointer hover:bg-primary border-[1px] border-white"
           onClick={() => {
             reject(reqeust.id);
           }}

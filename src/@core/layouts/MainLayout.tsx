@@ -18,10 +18,10 @@ function MainLayout({ children }: { children: ReactNode }) {
           </Paper>
         </div>
         <div
-          className="col-span-12   lg:col-span-9 2xl:col-span-10  min-h-[100vh]  flex flex-col gap-2 w-full md:bg-cover bg-contain bg-repeat  relative"
+          className="col-span-12   lg:col-span-9 2xl:col-span-10  min-h-[100vh]  flex flex-col gap-2 w-full md:bg-contain bg-contain bg-repeat  relative"
           style={{ backgroundImage: `url(${background})` }}
         >
-          <span className=" absolute left-0 top-0 h-full w-full bg-primary opacity-60 z-[1] "></span>
+          <span className=" absolute left-0 top-0 h-full w-full bg-primary opacity-60  z-[1] "></span>
           <div className=" md:p-5 p-2 sticky   top-0   z-[999]">
             <DashNavBar />
           </div>

@@ -34,7 +34,7 @@ function NavList() {
               (item.path == '/' && pathname == item.path)
                 ? ' bg-success text-primary font-bold'
                 : ' bg-secondary text-white'
-            }   py-3 px-3  rounded-ee-lg rounded-tl-lg flex items-center justify-start gap-2 md:text-[10px] lg:text-[15px] cursor-pointer min-w-fit lg:min-w-[120px] hover:bg-success hover:text-primary hover:font-bold`}
+            }   py-3 px-3  rounded-2xl flex items-center justify-start gap-2 md:text-[10px] lg:text-[15px] cursor-pointer min-w-fit lg:min-w-[120px] hover:bg-success hover:text-primary hover:font-bold`}
             key={index}
           >
             <MuiIcon
@@ -59,7 +59,7 @@ function NavList() {
             pathname.startsWith('/QRscanner') || pathname == '/QRscanner'
               ? ' bg-success text-primary font-bold'
               : ' bg-secondary text-white'
-          }   py-3 px-3  rounded-ee-lg rounded-tl-lg flex items-center justify-start gap-2 md:text-[10px] lg:text-[15px] cursor-pointer min-w-fit lg:min-w-[120px] hover:bg-success hover:text-primary hover:font-bold`}
+          }   py-3 px-3  rounded-2xl flex items-center justify-start gap-2 md:text-[10px] lg:text-[15px] cursor-pointer min-w-fit lg:min-w-[120px] hover:bg-success hover:text-primary hover:font-bold`}
         >
           <MuiIcon
             name="InfoOutlined"

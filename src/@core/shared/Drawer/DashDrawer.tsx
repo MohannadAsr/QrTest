@@ -26,8 +26,11 @@ function DashDrawer({
             overflow: 'hidden',
           }}
         >
-          <Paper className=" flex items-center justify-between  md:py-2 px-1  md:px-5  sticky top-0 z-[99999] py-2 ">
-            <p className=" font-semibold text-7">{title}</p>
+          <Paper
+            elevation={0}
+            className=" flex items-center justify-between  md:py-2 px-1  md:px-5  sticky top-0 z-[99999] py-2 "
+          >
+            <p className=" font-semibold text-7 text-primary ">{title}</p>
             <IconButton onClick={onClose}>
               <MuiIcon name="Close" />
             </IconButton>

@@ -10,9 +10,13 @@ type themeConfigType = {
   singleLanguage: { value: boolean; lang: string | null };
 };
 
+const production = true;
+
 export const themeConfig: themeConfigType = {
   name: 'L1',
-  API_URL: 'https://app-d89731df-3847-4a27-a904-ae31a58bb467.cleverapps.io',
+  API_URL: production
+    ? 'https://app-d89731df-3847-4a27-a904-ae31a58bb467.cleverapps.io'
+    : 'http://localhost:8080',
   localStorageName: 'it-trendco',
   PaletteOptions: {
     primary: {

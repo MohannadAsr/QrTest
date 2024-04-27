@@ -1,10 +1,8 @@
 import { EventDTO } from '@src/actions/Events/Dto';
-import React from 'react';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import logo from '/logo.webp';
-import { format } from 'date-fns';
-import { Link } from 'react-router-dom';
 import { countDownDto, useCountDown } from '@src/hooks/useCountDown';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import logo from '/logo.webp';
 
 function EventCard({ event }: { event: EventDTO }) {
   const { counter } = useCountDown();
@@ -36,23 +34,23 @@ function EventCard({ event }: { event: EventDTO }) {
         loading="lazy"
         src={event?.image || logo}
         className={` h-[150px] brand-rounded ${
-          event.image ? 'object-cover' : 'object-contain'
+          event.image ? 'object-contain' : 'object-contain'
         }  w-full`}
       />
       <p>{event?.name}</p>
       {!iSEnded && (
         <div className=" flex items-center gap-1">
           <span className="bg-secondary p-2 rounded-md min-w-[60px] text-center">
-            {CountDown?.day}
+            Tage <span className=" text-success">{CountDown?.day}</span>
           </span>
           <span className="bg-secondary p-2 rounded-md min-w-[60px] text-center">
-            {CountDown?.hour}
+            Std <span className=" text-success">{CountDown?.hour}</span>
           </span>
           <span className="bg-secondary p-2 rounded-md min-w-[60px] text-center">
-            {CountDown?.minute}
+            Min <span className=" text-success">{CountDown?.minute}</span>
           </span>
           <span className="bg-secondary p-2 rounded-md min-w-[60px] text-center">
-            {CountDown?.second}
+            Sek <span className=" text-success">{CountDown?.second}</span>
           </span>
         </div>
       )}
