@@ -1,5 +1,5 @@
 import { useApi } from '@src/hooks/useApi';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { BILLS_API } from './EndPoints';
 import { PaginationControlDTO, paginationDTO } from '../Vips/Dto';
 import { BillDto } from './Dto';
@@ -24,5 +24,25 @@ export const useBillsQuery = (paginationControl: PaginationControlDTO) => {
     enabled: true,
     refetchOnWindowFocus: false,
     // placeholderData: { data: [], pagination: new paginationDTO() },
+  });
+};
+
+// Delete Bills
+
+const deleteBills = async (ids: string[]) => {
+  const response = await DELETE(BILLS_API.main, ids);
+  return response.data;
+};
+
+export const MutateDeleteBills = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ['deleteVip'],
+    mutationFn: deleteBills,
+    onSuccess: (data) => {
+      if (data) {
+        queryClient.invalidateQueries({ queryKey: ['Bills'] });
+      }
+    },
   });
 };

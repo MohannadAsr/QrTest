@@ -1,5 +1,8 @@
 import DashTable from '@src/@core/shared/Table/DashTable';
-import { useBillsQuery } from '@src/actions/Bills/useBillsQueries';
+import {
+  MutateDeleteBills,
+  useBillsQuery,
+} from '@src/actions/Bills/useBillsQueries';
 import { PaginationControlDTO } from '@src/actions/Vips/Dto';
 import { MutateDeleteVip } from '@src/actions/Vips/useVipsQueries';
 import { format } from 'date-fns';
@@ -15,12 +18,12 @@ function Bills() {
     isFetching,
   } = useBillsQuery(paginationControl);
 
-  const { mutate: deleteVip } = MutateDeleteVip();
+  const { mutate: deleteBills } = MutateDeleteBills();
   const [selectedIds, setSelectedIds] = React.useState([]);
   const Tableref = React.useRef<null | HTMLDivElement>(null);
 
   const deleteItems = () => {
-    deleteVip(selectedIds, {
+    deleteBills(selectedIds, {
       onSuccess: () => {
         setSelectedIds([]);
       },
