@@ -42,9 +42,9 @@ function EventDetails() {
   }, [data]);
 
   function shareOnWhatsApp() {
-    const url = `${
-      window.location.protocol + '//' + window.location.host
-    }/eventaccess/${data.event.id}`;
+    const VipClientWebApp = 'https://l1-vip-client.vercel.app';
+
+    const url = `${VipClientWebApp}/${data.event.id}`;
 
     const webUrl = ` ${'https://api.whatsapp.com/send?text='}${encodeURIComponent(
       message + ' ' + url
