@@ -15,17 +15,20 @@ import DashDrawer from '@src/@core/shared/Drawer/DashDrawer';
 import DashDrawerActions from '@src/@core/shared/Drawer/DashDrawerActions';
 import TableLoading from '@src/@core/shared/Table/TableLoading';
 import { CircularProgress } from '@mui/material';
+import { InvitationStatus } from '@src/enums/Enums';
 
 function InvitationScan({
   id,
   open,
   setOpen,
   refetch,
+  auto = false,
 }: {
   id: string;
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  refetch: () => void;
+  refetch?: () => void;
+  auto?: boolean;
 }) {
   const [invite, setInvite] = React.useState<InvitationDetails | null>(null);
   const { mutate, isPending: isGettingInvite } = MutateGetInviteByID();
@@ -48,6 +51,9 @@ function InvitationScan({
         if (data) {
           setInvite(data);
           setOpen(true);
+          if (data.invitation.status == InvitationStatus.Approved && auto) {
+            completeInvite();
+          }
         }
       },
       onError: () => {
@@ -62,7 +68,9 @@ function InvitationScan({
       {
         onSuccess: (data) => {
           if (data) {
-            refetch();
+            if (refetch) {
+              refetch();
+            }
             handleClose();
           }
         },
