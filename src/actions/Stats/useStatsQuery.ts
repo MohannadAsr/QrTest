@@ -6,7 +6,8 @@ const { GET, DELETE, POST } = useApi();
 
 export type monthsStats = {
   month: string;
-  count: number;
+  count?: number;
+  totalAmount?: number;
 };
 
 const getStats = async (query: { currentYear: string }) => {

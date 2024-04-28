@@ -12,7 +12,7 @@ import {
 import { useCustomHooks } from '@src/hooks/useCustomHooks';
 import React from 'react';
 
-const dataToMonths = (stats: { month: string; count: number }[]) => {
+const dataToMonths = (stats: { month: string; count?: number }[]) => {
   const MonthsArray = Array.from({ length: 12 });
   return MonthsArray?.map(
     (month, index) =>
@@ -77,8 +77,14 @@ function StatsPage() {
           <ApexBarChart
             title={'Komplette Anzahl'}
             data={[
-              { name: 'Veranstaltungen', data: dataToMonths(data?.events) },
-              { name: 'Einladungen', data: dataToMonths(data?.invitations) },
+              {
+                name: 'Veranstaltungen',
+                data: dataToMonths(data?.events),
+              },
+              {
+                name: 'Einladungen',
+                data: dataToMonths(data?.invitations),
+              },
               { name: "VIP'S", data: dataToMonths(data?.vips) },
             ]}
           />
@@ -112,7 +118,15 @@ function StatsPage() {
           <ApexBarChart
             title={'Gesamtmenge'}
             data={[
-              { name: 'Total Benefits', data: dataToMonths(Bills?.Bills) },
+              {
+                name: 'Total Benefits',
+                data: dataToMonths(
+                  Bills?.Bills.map((item) => ({
+                    month: item.month,
+                    count: item.totalAmount,
+                  }))
+                ),
+              },
             ]}
           />
         </div>
