@@ -9,9 +9,6 @@ export const AppLoading = () => {
         <div className=" bg-primary p-5 rounded-md">
           <img src={logo} alt="ladoing" className=" w-20 md:w-44" />
         </div>
-        <p className="  font-bold text-lg md:text-3xl text-primary">
-          App Loading Please Wait ...
-        </p>
       </div>
     </Paper>
   );

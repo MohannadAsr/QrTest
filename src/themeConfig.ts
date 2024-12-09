@@ -14,9 +14,7 @@ const production = true;
 
 export const themeConfig: themeConfigType = {
   name: 'L1',
-  API_URL: production
-    ? 'https://app-d89731df-3847-4a27-a904-ae31a58bb467.cleverapps.io'
-    : 'http://localhost:8080',
+  API_URL: production ? 'http://85.215.107.121:8080' : 'http://localhost:8080',
   localStorageName: 'it-trendco',
   PaletteOptions: {
     primary: {
