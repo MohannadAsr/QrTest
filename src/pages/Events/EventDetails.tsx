@@ -91,7 +91,7 @@ function EventDetails() {
                     startIcon={<MuiIcon name="Share" />}
                     onClick={() => setOpen(true)}
                   >
-                    Aktie
+                    Teilen
                   </SuccessBtn>
                   <ErrorBtn
                     onClick={handleDelete}
@@ -179,7 +179,7 @@ function EventDetails() {
                 startIcon={<MuiIcon name="Share" />}
                 onClick={shareOnWhatsApp}
               >
-                Aktie
+                Teilen
               </SuccessBtn>
               <ErrorBtn
                 startIcon={<MuiIcon name="Close" />}
