@@ -59,7 +59,7 @@ function AddTabel({
           sx={{ minWidth: 150 }}
           startIcon={<MuiIcon name="Add" />}
         >
-          Neue Tisch
+          Neuer Tisch
         </SuccessBtn>
       ) : (
         <span onClick={() => setOpen(true)}>{customBtn}</span>

@@ -80,7 +80,7 @@ function Home() {
               </p>
               <Link to={'/events'}>
                 <SuccessBtn startIcon={<MuiIcon name="Preview" />}>
-                  Sicht
+                  Ansicht
                 </SuccessBtn>
               </Link>
             </div>
@@ -92,7 +92,7 @@ function Home() {
               </p>
               <Link to={'/vips'}>
                 <SuccessBtn startIcon={<MuiIcon name="Preview" />}>
-                  Sicht
+                  Ansicht
                 </SuccessBtn>
               </Link>
             </div>
@@ -104,7 +104,7 @@ function Home() {
               </p>
               <Link to={'/products'}>
                 <SuccessBtn startIcon={<MuiIcon name="Preview" />}>
-                  Sicht
+                  Ansicht
                 </SuccessBtn>
               </Link>
             </div>
